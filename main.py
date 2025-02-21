@@ -1,19 +1,34 @@
+from view.accessAccountView import AccessAccountView
 from view.authView import AuthView
 from view.createView import CreateView
 
 class __mainController:
   keyValue:any
   arguments:any
+  isToPopExitTutorial:bool
+
   def __init__(self, keyValue = None, arguments = None):
-    self.keyValue, self.arguments = keyValue, arguments
+    self.keyValue, self.arguments, self.isToPopExitTutorial = keyValue, arguments, True
+
+  def popExitTutorialIfNeed(self):
+    if(self.isToPopExitTutorial): print("\nLembre-se! Você pode sempre voltar a tela inicial digitando '0'")
+    self.isToPopExitTutorial = False
+  
+  def resetValues(self):
+    self.isToPopExitTutorial, self.keyValue, self.arguments = True, None, None
+    
 
 controller = __mainController()
-def keyValue() -> str: return controller.keyValue
+
+def getKeyValue() -> str: return controller.keyValue
 def arguments() -> str: return controller.arguments
 
+
 while(True):
-  if(keyValue() == None ): controller.keyValue = input("\n\n===================\n\n    CEDERJ BANK\n\n===================\n\nSign in (1) | Sign up (2) ")
-  match keyValue():
+  if(getKeyValue() == None ): 
+    controller.resetValues()
+    controller.keyValue = input("\n\n===================\n\n    CEDERJ BANK\n\n===================\n\nSign in (1) | Sign up (2) ")
+  match getKeyValue():
     case "1":
       authView = AuthView()
       result = authView.call()
@@ -26,8 +41,18 @@ while(True):
       if(result == None): controller.keyValue = result
       else: controller.keyValue, controller.arguments = result
       
+    case "3":
+      controller.popExitTutorialIfNeed()
+      accessAccountView = AccessAccountView(controller.arguments)
+      result = accessAccountView.call()
+      if(result == None): controller.keyValue = result
+      else: controller.keyValue, controller.arguments = result
+    
+    case None:
+      continue
+
     case _:
-      print("congrats. This part of the system is not implemented yet.")
+      print("Parabéns. Esta parte do sistema ainda não está pronta.")
       break
 
   

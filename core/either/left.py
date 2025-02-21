@@ -1,7 +1,6 @@
 from .either import Either
 
 codeErrorsMessages = { 
-  -1: "Success",
   0: "Unknown error",
   1: "Login not found",  
   2: "Password wrong",

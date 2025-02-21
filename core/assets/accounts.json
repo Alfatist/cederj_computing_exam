@@ -1,3 +1,6 @@
 {
-  
+  "nextId": 3,
+  "comment": "o número da conta, assumi ser o identificador",
+  "1": {"type": "Conta Corrente", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""},
+  "2": {"type": "Conta Poupança", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""}
 }

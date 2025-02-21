@@ -22,10 +22,10 @@ class CreateView(ViewModel):
       case -1: return self.returnView(["3", createUserController.getName()])
       case 3:
         print("Este nome já está em uso. Tente outro. ")  
-        return self.returnView(self.call())
+        return self.returnView(self.call)
       case 4: 
         print("Senha fraca. Por favor, insira ao mínimo 8 caracteres. ")
-        return self.returnView(self.call(CreateUserController(name=createUserController.getName), isToNullValues=False))
+        return self.returnView(self.call(CreateUserController(name=createUserController.getName()), isToNullValues=False))
       case _:
         print("Desculpe, tivemos um erro interno. Por favor, tente novamente: ")
-        return self.returnView(self.call())
+        return self.returnView(self.call)
