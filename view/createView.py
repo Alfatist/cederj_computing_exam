@@ -7,7 +7,8 @@ from view.viewModel import ViewModel
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
 class CreateView(ViewModel):
-  isToLeave:bool = False
+  def __init__(self, argument):
+    self.isToLeave = False
 
   def call(self, createUserController: CreateUserController = CreateUserController(), isToNullValues = True):
     if(isToNullValues): createUserController = CreateUserController()

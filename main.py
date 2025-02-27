@@ -1,6 +1,7 @@
 from view.accessAccountView import AccessAccountView
 from view.authView import AuthView
 from view.createView import CreateView
+from view.viewModel import ViewModel
 
 class __mainController:
   keyValue:any
@@ -17,6 +18,12 @@ class __mainController:
   def resetValues(self):
     self.isToPopExitTutorial, self.keyValue, self.arguments = True, None, None
     
+  def executeView(self, view: ViewModel):
+    view = view(self.arguments)
+    result = view.call()
+    if(result == None): self.keyValue = result
+    else: self.keyValue, self.arguments = result
+
 
 controller = __mainController()
 
@@ -27,26 +34,21 @@ def arguments() -> str: return controller.arguments
 while(True):
   if(getKeyValue() == None ): 
     controller.resetValues()
-    controller.keyValue = input("\n\n===================\n\n    CEDERJ BANK\n\n===================\n\nSign in (1) | Sign up (2) ")
+    initialResult = input("\n\n===================\n\n    CEDERJ BANK\n\n===================\nEntre (1) | Cadastre-se (2) ")
+    controller.keyValue = initialResult
+    if(not (initialResult == "1" or initialResult == "2")): 
+      print(initialResult)
+      controller.keyValue = None
+      print("Valor inválido")
+
   match getKeyValue():
-    case "1":
-      authView = AuthView()
-      result = authView.call()
-      if(result == None): controller.keyValue = result
-      else: controller.keyValue, controller.arguments = result
+    case "1": controller.executeView(AuthView)
       
-    case "2":
-      createView = CreateView()
-      result = createView.call()
-      if(result == None): controller.keyValue = result
-      else: controller.keyValue, controller.arguments = result
+    case "2": controller.executeView(CreateView)
       
     case "3":
       controller.popExitTutorialIfNeed()
-      accessAccountView = AccessAccountView(controller.arguments)
-      result = accessAccountView.call()
-      if(result == None): controller.keyValue = result
-      else: controller.keyValue, controller.arguments = result
+      controller.executeView(AccessAccountView)
     
     case None:
       continue

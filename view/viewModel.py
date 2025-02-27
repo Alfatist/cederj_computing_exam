@@ -1,13 +1,14 @@
-
-
 class ViewModel:
   exitValue = "0"
   isToLeave:bool
 
 
-  def __init__(self):
+  def __init__(self, argument):
     self.isToLeave = False
 
+  def call(self):
+    raise NotImplementedError
+  
   def inputView(self, message:str):
     if(not self.isToLeave): 
       valueInput = input(message)

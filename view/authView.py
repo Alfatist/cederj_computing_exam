@@ -8,7 +8,8 @@ sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from controllers.authUserController import AuthUserController
 
 class AuthView(ViewModel):
-  isToLeave:bool = False
+  def __init__(self, argument):
+    self.isToLeave = False
 
   def call(self, authUserController: AuthUserController = AuthUserController(), isToNullValues = True):
     self.isToLeave = False
