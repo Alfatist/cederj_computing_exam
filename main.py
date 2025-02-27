@@ -1,6 +1,6 @@
 from view.accessAccountView import AccessAccountView
 from view.authView import AuthView
-from view.createAccount import CreateAccountView
+from view.createAccountView import CreateAccountView
 from view.createView import CreateView
 from view.viewModel import ViewModel
 
@@ -20,10 +20,15 @@ class __mainController:
     self.isToPopExitTutorial, self.keyValue, self.arguments = True, None, None
     
   def executeView(self, view: ViewModel):
-    view = view(self.arguments)
-    result = view.call()
-    if(result == None): self.keyValue = result
-    else: self.keyValue, self.arguments = result
+    try:
+      view = view(self.arguments)
+      result = view.call()
+      if(result == None): self.keyValue = result
+      else: self.keyValue, self.arguments = result
+    except Exception as e:
+      print("Por motivos de segurança, pedimos que se logue novamente. Pedimos desculpas pela inconveniência.")
+      
+      self.keyValue = None
 
 
 controller = __mainController()
@@ -50,8 +55,7 @@ while(True):
       controller.popExitTutorialIfNeed()
       controller.executeView(AccessAccountView)
 
-    case "4":
-      controller.executeView(CreateAccountView)
+    case "4": controller.executeView(CreateAccountView)
     
     case None:
       continue

@@ -11,32 +11,36 @@ from core.either.either import Either
 from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
-def CreateCurrentAccountJsonRepository(holderName) -> Either:
+def CreateCurrentAccountJsonRepository(holderName, address, agency = "0001") -> Either:
   try:
     accounts = getEndpointJson(AppURLs.accounts)
     accountID = accounts["nextId"]
     accounts["nextId"] = accountID + 1
-    accounts[accountID] = accounts["defaultCurrentAccountDict"]
+    newJson = accounts["defaultCurrentAccountDict"]
+    newJson["holderName"] = holderName
+    newJson["holderAddress"] = address
+    newJson["agency"] = agency
+    
+    accounts[accountID] = newJson
     either = writeEndpointJson(AppURLs.accounts, accounts)
     if(type(either) == Right): return addAccountToUser(holderName, accountID)
     return Left("Não foi possível criar a nova conta.", 5)
   except:
     return Left("Erro desconhecido.")
   
-def CreateSavingAccountJsonRepository(holderName) -> Either:
+def CreateSavingAccountJsonRepository(holderName, address, agency = "0001") -> Either:
   try:
     accounts = getEndpointJson(AppURLs.accounts)
     accountID = accounts["nextId"]
     accounts["nextId"] = accountID + 1
-    accounts[accountID] = accounts["defaultSavingAccountDict"]
+    newJson = accounts["defaultSavingAccountDict"]
+    newJson["holderName"] = holderName
+    newJson["holderAddress"] = address
+    newJson["agency"] = agency
+    
+    accounts[accountID] = newJson
     either = writeEndpointJson(AppURLs.accounts, accounts)
     if(type(either) == Right): return addAccountToUser(holderName, accountID)
     return Left("Não foi possível criar a nova conta.", 5)
   except:
     return Left("Erro desconhecido.")
-
-
-# testes 
-# print(CreateUserJsonRepository("mateus", "123456789").message) # should return an account exist
-# print(CreateUserJsonRepository("Mateus", "123456789").message) # should rewrite the json
-# print(CreateUserJsonRepository("mateus", "123456789").message) # should rewrite the json

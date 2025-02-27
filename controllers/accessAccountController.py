@@ -11,6 +11,8 @@ class AccessAccountController(object):
   def getAvailableAccounts(self):
     either = GetAvailableAccountsJsonRepository(self.__name)
     self.__availableAccounts = either.result
+    print(self.__availableAccounts)
+    if(self.__availableAccounts == None or self.__availableAccounts == []): return []
     return list(map(getAccountById, self.__availableAccounts))
 
 

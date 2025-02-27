@@ -13,12 +13,12 @@ class CreateAccountController(object):
   def getName(self): return self.__name
 
 
-  def createCurrentAccount(self) -> bool:
-    if(type(CreateCurrentAccountJsonRepository(self.__name)) == Right): return True
+  def createCurrentAccount(self, address, agency) -> bool:
+    if(type(CreateCurrentAccountJsonRepository(self.__name, address, agency)) == Right): return True
     return False
 
   
-  def createSavingAccount(self) -> bool:
-    if(type(CreateSavingAccountJsonRepository(self.__name)) == Right): return True
+  def createSavingAccount(self, address, agency) -> bool:
+    if(type(CreateSavingAccountJsonRepository(self.__name, address, agency)) == Right): return True
     return False
   
