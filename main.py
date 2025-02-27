@@ -1,5 +1,6 @@
 from view.accessAccountView import AccessAccountView
 from view.authView import AuthView
+from view.createAccount import CreateAccountView
 from view.createView import CreateView
 from view.viewModel import ViewModel
 
@@ -37,7 +38,6 @@ while(True):
     initialResult = input("\n\n===================\n\n    CEDERJ BANK\n\n===================\nEntre (1) | Cadastre-se (2) ")
     controller.keyValue = initialResult
     if(not (initialResult == "1" or initialResult == "2")): 
-      print(initialResult)
       controller.keyValue = None
       print("Valor inválido")
 
@@ -49,6 +49,9 @@ while(True):
     case "3":
       controller.popExitTutorialIfNeed()
       controller.executeView(AccessAccountView)
+
+    case "4":
+      controller.executeView(CreateAccountView)
     
     case None:
       continue
@@ -56,6 +59,3 @@ while(True):
     case _:
       print("Parabéns. Esta parte do sistema ainda não está pronta.")
       break
-
-  
-

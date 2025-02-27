@@ -1,6 +1,1 @@
-{
-  "nextId": 3,
-  "comment": "o número da conta, assumi ser o identificador",
-  "1": {"type": "Conta Corrente", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""},
-  "2": {"type": "Conta Poupança", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""}
-}
+{"nextId": 5, "comment": "o n\u00famero da conta, assumi ser o identificador", "defaultCurrentAccountDict": {"type": "Conta Corrente", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""}, "defaultSavingAccountDict": {"type": "Conta Poupan\u00e7a", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""}, "1": {"type": "Conta Corrente", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""}, "2": {"type": "Conta Poupan\u00e7a", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""}, "3": {"type": "Conta Corrente", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""}, "4": {"type": "Conta Poupan\u00e7a", "balance": 0, "holderAddress": "", "holderName": "", "agency": ""}}

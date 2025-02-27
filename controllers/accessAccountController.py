@@ -1,7 +1,4 @@
-from core.either.left import Left
 from model.getAvailableAccountsJsonRepository import getAccountById, GetAvailableAccountsJsonRepository
-from core.either.either import Either
-from core.either.right import Right
 
 
 
@@ -25,11 +22,4 @@ class AccessAccountController(object):
       self.__availableAccounts.index(int(idAccount))
       return True
     except: return False
-  
-
-  def enterAccount(self, name):
-    raise NotImplementedError
-  
-  def createAccount(self, name):
-    raise NotImplementedError
   

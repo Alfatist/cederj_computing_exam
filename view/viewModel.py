@@ -16,7 +16,7 @@ class ViewModel:
       return valueInput
   
 
-  def returnView(self, returnExpected):
+  def returnView(self, returnExpected:list):
     '''or return None (to exit all), or return a list with 2 Items. Index 0 with keycode to main, and index 1 with arguments'''
     if(self.isToLeave): return None
     if(type(returnExpected) == list): return returnExpected
