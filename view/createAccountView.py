@@ -52,7 +52,6 @@ class CreateAccountView(ViewModel):
   
   def __askForAgency(self):
     if(self.isToLeave): return self.returnView([0,0])
-    print("eu juro, estou chegando aqui")
     agencyInput = self.inputView("Agora a agência (somente números): ")
     
     while(True):

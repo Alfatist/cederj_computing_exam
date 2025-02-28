@@ -12,6 +12,8 @@ from core.constants.appURLs import AppURLs
 def addAccountToUser(user, account) -> Either:
   try:
     users = getEndpointJson(AppURLs.clients)
+    print(users.get(user))
+    if(users.get(user) == None): users[user] = []
     users[user].append(account)
     return writeEndpointJson(AppURLs.clients, users)
   except:

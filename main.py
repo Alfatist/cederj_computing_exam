@@ -1,4 +1,5 @@
 from view.accessAccountView import AccessAccountView
+from view.accessingAccountView import AccessingAccountView
 from view.authView import AuthView
 from view.createAccountView import CreateAccountView
 from view.createView import CreateView
@@ -26,6 +27,7 @@ class __mainController:
       if(result == None): self.keyValue = result
       else: self.keyValue, self.arguments = result
     except Exception as e:
+      raise e
       print("Por motivos de segurança, pedimos que se logue novamente. Pedimos desculpas pela inconveniência.")
       
       self.keyValue = None
@@ -57,6 +59,7 @@ while(True):
 
     case "4": controller.executeView(CreateAccountView)
     
+    case "5": controller.executeView(AccessingAccountView)
     case None:
       continue
 
