@@ -24,6 +24,7 @@ class AccessAccountView(ViewModel):
     
     
     result = self.inputView(f"\n\n\n\n\n\n\n\n\n\n\n===\n\n{str.join(" | ", accountsList)}\n\n===\n\nPara acessar uma das contas acima, digite seu id. Para criar uma, digite 'criar':\n\n")
+    if(self.isToLeave): return self.returnView([0,0])
     if(result.lower() == "criar"): return self.returnView(["4", self.holderName])
     resultIsValid = self.accessAccountController.checkAccountExistById(result)
 

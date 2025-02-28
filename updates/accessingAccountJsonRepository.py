@@ -14,7 +14,7 @@ def addMoneyToBalanceAccountJsonRepository(account:str, number:float) -> Either:
   try:
     accounts = getEndpointJson(AppURLs.accounts)
     accounts[account]["balance"] += number
-    addToStatementDeposit(account, number)
+    addToStatementDepositJsonRepository(account, number)
     return writeEndpointJson(AppURLs.accounts, accounts)
   except: return Left("Erro desconhecido.")
   
@@ -35,13 +35,13 @@ def transferMoneyAccountJsonRepository(accountTransfering, accountToTransfer, va
     fromAccount["balance"] -= value
     toAccount["balance"] += value
     accounts[accountTransfering], accounts[accountToTransfer] = fromAccount, toAccount
-    addToStatementTransfer(accountTransfering, value, accountToTransfer)
+    addToStatementTransferJsonRepository(accountTransfering, value, accountToTransfer)
     return writeEndpointJson(AppURLs.accounts, accounts)
   except:
     return Left("Erro desconhecido")
 
 
-def addToStatementDeposit(account, value) -> Either:
+def addToStatementDepositJsonRepository(account, value) -> Either:
   dateNow = datetime.datetime.today().strftime('%d/%m/%Y')
   statements = getEndpointJson(AppURLs.statements)
   if(statements.get(account) == None ): statements[account] = {}
@@ -49,7 +49,7 @@ def addToStatementDeposit(account, value) -> Either:
   statements[account][dateNow].append(f"Depósito de {value} reais")
   return writeEndpointJson(AppURLs.statements, statements)
     
-def addToStatementTransfer(account, value, receiverAccount) -> Either:
+def addToStatementTransferJsonRepository(account, value, receiverAccount) -> Either:
   dateNow = datetime.datetime.today().strftime('%d/%m/%Y')
   statements = getEndpointJson(AppURLs.statements)
   if(statements.get(account) == None ): statements[account] = {}

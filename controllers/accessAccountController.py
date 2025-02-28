@@ -1,4 +1,4 @@
-from model.getAvailableAccountsJsonRepository import getAccountByIdJsonRepository, GetAvailableAccountsJsonRepository
+from updates.getAvailableAccountsJsonRepository import getAccountByIdJsonRepository, GetAvailableAccountsJsonRepository
 
 
 

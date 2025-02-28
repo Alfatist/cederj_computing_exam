@@ -1,7 +1,7 @@
 import sys
 import os
 
-from model.crudAccountToUserJsonRepository import addAccountToUser
+from updates.crudAccountToUserJsonRepository import addAccountToUserJsonRepository
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.helpers.writeEndpointJson import writeEndpointJson
@@ -23,7 +23,7 @@ def CreateCurrentAccountJsonRepository(holderName, address, agency = "0001") -> 
     
     accounts[accountID] = newJson
     either = writeEndpointJson(AppURLs.accounts, accounts)
-    if(type(either) == Right): return addAccountToUser(holderName, accountID)
+    if(type(either) == Right): return addAccountToUserJsonRepository(holderName, accountID)
     return Left("Não foi possível criar a nova conta.", 5)
   except:
     return Left("Erro desconhecido.")
@@ -40,7 +40,7 @@ def CreateSavingAccountJsonRepository(holderName, address, agency = "0001") -> E
     
     accounts[accountID] = newJson
     either = writeEndpointJson(AppURLs.accounts, accounts)
-    if(type(either) == Right): return addAccountToUser(holderName, accountID)
+    if(type(either) == Right): return addAccountToUserJsonRepository(holderName, accountID)
     return Left("Não foi possível criar a nova conta.", 5)
   except:
     return Left("Erro desconhecido.")

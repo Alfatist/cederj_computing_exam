@@ -30,6 +30,7 @@ class AccessingAccountView(ViewModel):
       case "1": 
         valueToAdd = self.inputView("Digite o quanto você deseja depositar (ou 'voltar' para voltar): ")
         while(True):
+          if(self.isToLeave): return self.returnView([0,0])
           if(valueToAdd.lower() == "voltar"): return self.returnView(self.call())
           if(valueToAdd.isnumeric() and float(valueToAdd) > 0): break
           valueToAdd = self.inputView("Por favor, digite um número válido: ")
@@ -40,9 +41,11 @@ class AccessingAccountView(ViewModel):
         return self.returnView(self.call())
       case "2":
         idAccountTotransfer = self.inputView("Digite o id da conta para a qual você quer transferir (ou 'voltar' para voltar): ")
+        if(self.isToLeave): return self.returnView([0,0])
         if(idAccountTotransfer == self.accessingAccountController.getAccountId() or not self.accessingAccountController.checkAccountExist(idAccountTotransfer) or idAccountTotransfer.lower() == "voltar"): return self.returnView(self.call())
         valueToTransfer = self.inputView("Agora digite o valor a ser transferido: ")
         while(True):
+          if(self.isToLeave): return self.returnView([0,0])
           if(valueToTransfer.lower() == "voltar"): return self.returnView(self.call())
           if(valueToTransfer.isnumeric()):
             valueToTransfer = float(valueToTransfer)

@@ -9,7 +9,7 @@ from core.either.either import Either
 from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
-def addAccountToUser(user, account) -> Either:
+def addAccountToUserJsonRepository(user, account) -> Either:
   try:
     users = getEndpointJson(AppURLs.clients)
     print(users.get(user))

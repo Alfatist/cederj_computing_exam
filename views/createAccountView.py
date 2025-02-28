@@ -19,7 +19,7 @@ class CreateAccountView(ViewModel):
   def call(self):
     self.isToLeave = False
     accountTypeChoose = self.inputView("\nCaso queira criar uma conta corrente, digite '1'. Caso queira criar uma conta poupança, digite '2'\nCaso queira voltar, digite 'voltar'\n\n")
-    
+    if(self.isToLeave): return self.returnView([0,0])
     match accountTypeChoose.lower():
       case "voltar": return self.returnView(["3", self.holderName])
       case "1": 
