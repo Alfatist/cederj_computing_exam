@@ -1,4 +1,4 @@
-from model.getAvailableAccountsJsonRepository import getAccountById, GetAvailableAccountsJsonRepository
+from model.getAvailableAccountsJsonRepository import getAccountByIdJsonRepository, GetAvailableAccountsJsonRepository
 
 
 
@@ -12,7 +12,7 @@ class AccessAccountController(object):
     either = GetAvailableAccountsJsonRepository(self.__name)
     self.__availableAccounts = either.result
     if(self.__availableAccounts == None or self.__availableAccounts == []): return []
-    return list(map(getAccountById, self.__availableAccounts))
+    return list(map(getAccountByIdJsonRepository, self.__availableAccounts))
 
 
   def __init__(self, name):

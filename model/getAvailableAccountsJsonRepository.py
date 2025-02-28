@@ -13,11 +13,11 @@ def GetAvailableAccountsJsonRepository(name) -> Either:
     availableAccounts = getEndpointJson(AppURLs.clients).get(name)
 
     if(availableAccounts == None or availableAccounts == []): return Right("Success but doesn't exist", [])
-    return Right("Success", availableAccounts)
+    return Right(availableAccounts)
   except: return Left("Error while trying to get accounts")
 
 
-def getAccountById(idAccount: any):
+def getAccountByIdJsonRepository(idAccount: any):
   idAccount = str(idAccount)
   account = getEndpointJson(AppURLs.accounts).get(idAccount)
   typeAccount = account.get("type")

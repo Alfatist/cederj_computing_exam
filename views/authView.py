@@ -1,7 +1,7 @@
 import sys
 import os
 
-from view.viewModel import ViewModel
+from views.viewModel import ViewModel
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 

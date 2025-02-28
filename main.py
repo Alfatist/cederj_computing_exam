@@ -1,9 +1,9 @@
-from view.accessAccountView import AccessAccountView
-from view.accessingAccountView import AccessingAccountView
-from view.authView import AuthView
-from view.createAccountView import CreateAccountView
-from view.createView import CreateView
-from view.viewModel import ViewModel
+from views.accessAccountView import AccessAccountView
+from views.accessingAccountView import AccessingAccountView
+from views.authView import AuthView
+from views.createAccountView import CreateAccountView
+from views.createView import CreateView
+from views.viewModel import ViewModel
 
 class __mainController:
   keyValue:any
@@ -42,7 +42,7 @@ def arguments() -> str: return controller.arguments
 while(True):
   if(getKeyValue() == None ): 
     controller.resetValues()
-    initialResult = input("\n\n===================\n\n    CEDERJ BANK\n\n===================\nEntre (1) | Cadastre-se (2) ")
+    initialResult = input("\n\n\n\n\n\n\n\n\n===================\n\n    CEDERJ BANK\n\n===================\nEntre (1) | Cadastre-se (2) ")
     controller.keyValue = initialResult
     if(not (initialResult == "1" or initialResult == "2")): 
       controller.keyValue = None

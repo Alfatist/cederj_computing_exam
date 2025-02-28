@@ -1,3 +1,3 @@
 class Either:
-  message:str
+  code:int
   result: any

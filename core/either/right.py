@@ -3,6 +3,6 @@ from .either import Either
 
 class Right(Either):
   '''Represents a success.'''
-  message:str
+  code:int
   result: any
-  def __init__(self, message:str, result = -1): self.message, self.result = message.strip(), result
+  def __init__(self, result, code:str = -1): self.code, self.result = code, result

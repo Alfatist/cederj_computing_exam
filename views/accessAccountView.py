@@ -3,7 +3,7 @@ import os
 
 from controllers.accessAccountController import AccessAccountController
 from controllers.createUserController import CreateUserController
-from view.viewModel import ViewModel
+from views.viewModel import ViewModel
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
@@ -23,7 +23,7 @@ class AccessAccountView(ViewModel):
       return self.returnView(["4", self.holderName])
     
     
-    result = self.inputView(f"\n===\n\n{str.join(" | ", accountsList)}\n\n===\n\nPara acessar uma das contas acima, digite seu id. Para criar uma, digite 'criar':\n\n")
+    result = self.inputView(f"\n\n\n\n\n\n\n\n\n\n\n===\n\n{str.join(" | ", accountsList)}\n\n===\n\nPara acessar uma das contas acima, digite seu id. Para criar uma, digite 'criar':\n\n")
     if(result.lower() == "criar"): return self.returnView(["4", self.holderName])
     resultIsValid = self.accessAccountController.checkAccountExistById(result)
 

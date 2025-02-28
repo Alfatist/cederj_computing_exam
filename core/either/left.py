@@ -11,12 +11,12 @@ codeErrorsMessages = {
 
 class Left(Either):
   '''Represents a failure. Should be treated'''
-  message:str
+  code:str
   result:str
 
-  def __init__(self, message:str, code = 0): 
-    self.message = message + f"\nCode {code}: {codeErrorsMessages[code]}"
-    self.result = code
-    self.message = self.message.strip()
+  def __init__(self, result:any, code = 0): 
+    self.code = code
+    self.result = result
+    
   
-  def __str__(self): return self.message
+  def __str__(self): return f"{self.code}: {codeErrorsMessages[self.code]}"
