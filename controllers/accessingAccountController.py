@@ -1,10 +1,8 @@
 from core.either.left import Left
 from model.getStatementOfAccountJsonRepository import getStatementOfAccountJsonRepository
-from model.accessingAccountJsonRepository import addMoneyToBalanceAccountJsonRepository, checkIfAccountExistJsonRepository, getAddressAccountJsonRepository, getBalanceAccountJsonRepository, transferMoneyAccountJsonRepository
+from model.accessingAccountJsonRepository import addMoneyToBalanceAccountJsonRepository, changeHolderAddressJsonRepository, checkIfAccountExistJsonRepository, getAddressAccountJsonRepository, getBalanceAccountJsonRepository, transferMoneyAccountJsonRepository
 from core.either.either import Either
 from core.either.right import Right
-
-
 
 
 class AccessingAccountController(object):
@@ -45,3 +43,5 @@ class AccessingAccountController(object):
       return fullStatementToString
     return "Desculpe, tivemos um erro ao tentar pegar o extrato."
     
+  def changeHolderAddress(self, newAddress):
+    return changeHolderAddressJsonRepository(self.__accountId, newAddress)

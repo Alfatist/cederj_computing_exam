@@ -57,4 +57,10 @@ def addToStatementTransfer(account, value, receiverAccount) -> Either:
   statements[account][dateNow].append(f"Transferência de {value} reais para a conta de id {receiverAccount}")
   return writeEndpointJson(AppURLs.statements, statements)
 
-
+def changeHolderAddressJsonRepository(account, newAddress) -> Either:
+  try:
+    newJson = getEndpointJson(AppURLs.accounts)
+    newJson[account]["holderAddress"] = newAddress
+    return writeEndpointJson(AppURLs.accounts, newJson)
+  except:
+    return Left("Erro desconhecido")

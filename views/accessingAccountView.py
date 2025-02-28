@@ -23,9 +23,7 @@ class AccessingAccountView(ViewModel):
   def call(self):
     self.isToLeave = False
     print(f"\n===\nVocê está acessando a conta de id {self.accessingAccountController.getAccountId()}\nSaldo:{self.accessingAccountController.getBalance()}\nEndereço:{self.accessingAccountController.getAddress()}\n===\n\n")
-    operation = self.inputView("Depositar (1) | Transferir (2) | Ver extrato (3) | Alterar endereço (4) | Solicitar exclusão (5)\n")
-
-    
+    operation = self.inputView("Depositar (1) | Transferir (2) | Ver extrato (3) | Alterar endereço (4) | Solicitar exclusão (5) | Deslogar (0)\nCaso queira voltar a visualização de contas, será necessário deslogar.\n")
     match operation:
       case "1": 
         valueToAdd = self.inputView("Digite o quanto você deseja depositar (ou 'voltar' para voltar): ")
@@ -37,6 +35,7 @@ class AccessingAccountView(ViewModel):
         
         if(type(result) == Right): print(f"\n{valueToAdd} adicionado na conta com êxito!")
         if(type(result) == Left): print("\n Algo deu errado. Por favor, repita a operação.")
+        self.pressAnyKeyToContinue()
         return self.returnView(self.call())
       case "2":
         idAccountTotransfer = self.inputView("Digite o id da conta para a qual você quer transferir (ou 'voltar' para voltar): ")
@@ -51,9 +50,15 @@ class AccessingAccountView(ViewModel):
         result = self.accessingAccountController.transferMoneyToAccount(idAccountTotransfer, float(valueToTransfer))
         if(type(result) == Right): print(f"\n{valueToTransfer} transferido para a conta {idAccountTotransfer} com êxito!")
         if(type(result) == Left): print("\n Algo deu errado. Por favor, repita a operação.")
+        self.pressAnyKeyToContinue()
         return self.returnView(self.call())
       case "3":
         print(f"\n{self.accessingAccountController.getStatementOfAccount()}\n")
+        self.pressAnyKeyToContinue()
         return self.returnView(self.call()) 
-        
-  
+      case "4": 
+        resultEither = type(self.accessingAccountController.changeHolderAddress(self.inputView("Digite o novo endereço: ")))
+        if(resultEither == Right): print("Endereço alterado com êxito.")
+        if(resultEither == Left):  print("desculpe, não foi possível alterar o endereço.")
+        self.pressAnyKeyToContinue()
+        return self.returnView(self.call)
