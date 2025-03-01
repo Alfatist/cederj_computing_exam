@@ -3,3 +3,4 @@ class AppURLs:
   accounts = "accounts.json"
   clients = "clients.json"
   statements = "statements.json"
+  authAdmin = "authAdmin.json"

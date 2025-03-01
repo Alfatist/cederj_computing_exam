@@ -1,3 +1,4 @@
+from views.admin.authAdminView import AuthAdminView
 from views.user.accessAccountView import AccessAccountView
 from views.user.accessingAccountView import AccessingAccountView
 from views.user.authView import AuthView
@@ -44,7 +45,7 @@ while(True):
     controller.resetValues()
     initialResult = input("\n\n\n\n\n\n\n\n\n===================\n\n    CEDERJ BANK\n\n===================\nEntre (1) | Cadastre-se (2) ")
     controller.keyValue = initialResult
-    if(not (initialResult == "1" or initialResult == "2")): 
+    if(not (initialResult == "1" or initialResult == "2" or initialResult == "admin")): 
       controller.keyValue = None
       print("Valor inválido")
 
@@ -61,9 +62,13 @@ while(True):
     case "4": controller.executeView(CreateAccountView)
     
     case "5": controller.executeView(AccessingAccountView)
+
+    case "admin": controller.executeView(AuthAdminView) # deve retornar -1
     
     case None: continue
+
 
     case _:
       print("Parabéns. Esta parte do sistema ainda não está pronta.")
       break
+
