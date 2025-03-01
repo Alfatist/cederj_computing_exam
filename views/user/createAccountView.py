@@ -1,9 +1,9 @@
 import sys
 import os
 
-from controllers.accessAccountController import AccessAccountController
-from controllers.createAccountController import CreateAccountController
-from controllers.createUserController import CreateUserController
+from controllers.user.accessAccountController import AccessAccountController
+from controllers.user.createAccountController import CreateAccountController
+from controllers.user.createUserController import CreateUserController
 from views.viewModel import ViewModel
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))

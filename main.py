@@ -1,11 +1,12 @@
-from views.accessAccountView import AccessAccountView
-from views.accessingAccountView import AccessingAccountView
-from views.authView import AuthView
-from views.createAccountView import CreateAccountView
-from views.createView import CreateView
+from views.user.accessAccountView import AccessAccountView
+from views.user.accessingAccountView import AccessingAccountView
+from views.user.authView import AuthView
+from views.user.createAccountView import CreateAccountView
+from views.user.createView import CreateView
 from views.viewModel import ViewModel
 
 class __mainController:
+  '''cada view retorna, obrigatoriamente, ou uma lista contendo [keyValue, arguments] ou None. Se for None, ele retorna para o logout.'''
   keyValue:any
   arguments:any
   isToPopExitTutorial:bool
@@ -48,6 +49,7 @@ while(True):
       print("Valor inválido")
 
   match getKeyValue():
+    
     case "1": controller.executeView(AuthView)
       
     case "2": controller.executeView(CreateView)
@@ -59,8 +61,8 @@ while(True):
     case "4": controller.executeView(CreateAccountView)
     
     case "5": controller.executeView(AccessingAccountView)
-    case None:
-      continue
+    
+    case None: continue
 
     case _:
       print("Parabéns. Esta parte do sistema ainda não está pronta.")

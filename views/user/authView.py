@@ -5,7 +5,7 @@ from views.viewModel import ViewModel
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from controllers.authUserController import AuthUserController
+from controllers.user.authUserController import AuthUserController
 
 class AuthView(ViewModel):
   def __init__(self, argument):

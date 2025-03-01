@@ -16,10 +16,10 @@ class ViewModel:
       return valueInput
   
   def pressAnyKeyToContinue(self):
-    '''Function to wait a userInput to continue'''
+    '''Function to wait a user input to continue'''
     self.inputView(f"\nPressione qualquer tecla para continuar, ou {self.exitValue} para sair: ")
 
-  def returnView(self, returnExpected:list):
+  def returnView(self, returnExpected:list) -> list | None:
     '''or return None (to exit all), or return a list with 2 Items. Index 0 with keycode to main, and index 1 with arguments'''
     if(self.isToLeave): return None
     if(type(returnExpected) == list): return returnExpected
