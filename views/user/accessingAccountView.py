@@ -29,7 +29,7 @@ class AccessingAccountView(ViewModel):
         valueToAdd = self.inputView("Digite o quanto você deseja depositar (ou 'voltar' para voltar): ")
         while(True):
           if(self.isToLeave): return self.returnView([0,0])
-          if(valueToAdd.lower() == "voltar"): return self.returnView(self.call())
+          if(valueToAdd.lower() == "voltar"): return self.returnView(self.call)
           if(valueToAdd.isnumeric() and float(valueToAdd) > 0): break
           valueToAdd = self.inputView("Por favor, digite um número válido: ")
         result = self.accessingAccountController.addMoney(float(valueToAdd))
@@ -37,7 +37,7 @@ class AccessingAccountView(ViewModel):
         if(type(result) == Right): print(f"\n{valueToAdd} adicionado na conta com êxito!")
         if(type(result) == Left): print("\n Algo deu errado. Por favor, repita a operação.")
         self.pressAnyKeyToContinue()
-        return self.returnView(self.call())
+        return self.returnView(self.call)
       case "2":
         idAccountTotransfer = self.inputView("Digite o id da conta para a qual você quer transferir (ou 'voltar' para voltar): ")
         if(self.isToLeave): return self.returnView([0,0])
@@ -45,7 +45,7 @@ class AccessingAccountView(ViewModel):
         valueToTransfer = self.inputView("Agora digite o valor a ser transferido: ")
         while(True):
           if(self.isToLeave): return self.returnView([0,0])
-          if(valueToTransfer.lower() == "voltar"): return self.returnView(self.call())
+          if(valueToTransfer.lower() == "voltar"): return self.returnView(self.call)
           if(valueToTransfer.isnumeric()):
             valueToTransfer = float(valueToTransfer)
             if(0 < valueToTransfer < self.accessingAccountController.getBalance()): break
@@ -54,14 +54,24 @@ class AccessingAccountView(ViewModel):
         if(type(result) == Right): print(f"\n{valueToTransfer} transferido para a conta {idAccountTotransfer} com êxito!")
         if(type(result) == Left): print("\n Algo deu errado. Por favor, repita a operação.")
         self.pressAnyKeyToContinue()
-        return self.returnView(self.call())
+        return self.returnView(self.call)
       case "3":
         print(f"\n{self.accessingAccountController.getStatementOfAccount()}\n")
         self.pressAnyKeyToContinue()
-        return self.returnView(self.call()) 
+        return self.returnView(self.call) 
       case "4": 
         resultEither = type(self.accessingAccountController.changeHolderAddress(self.inputView("Digite o novo endereço: ")))
         if(resultEither == Right): print("Endereço alterado com êxito.")
         if(resultEither == Left):  print("desculpe, não foi possível alterar o endereço.")
         self.pressAnyKeyToContinue()
+        return self.returnView(self.call)
+      case "5":
+        confirm = self.inputView("Para confirmar a operação, digite seu nome: ")
+        if(confirm != self.accessingAccountController.getName()): return self.returnView(self.call)
+        result = self.accessingAccountController.orderDeleteAccount()
+        if(type(result) == Right): 
+          print("\n\nBeleza, sua solicitação de exclusão foi solicitada para um dos nossos adms. Agradecemos a preferência :)")
+          return self.returnView([None, None])
+        
+        print("\nDesculpa, mas algo deu errado na solicitação. Tente novamente.\n")
         return self.returnView(self.call)

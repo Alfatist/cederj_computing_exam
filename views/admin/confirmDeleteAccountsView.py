@@ -1,15 +1,15 @@
 import sys
 import os
-from turtle import right
 
 from controllers.admin.authAdminController import AuthAdminController
 from controllers.admin.confirmDeleteAccountsController import ConfirmDeleteAccountsController
 from core.either.left import Left
+from core.either.right import Right
 from views.viewModel import ViewModel
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from controllers.user.authUserController import AuthUserController
+#TODO: fazer a rejeição também
 
 class ConfirmDeleteAccountsView(ViewModel):
   def __init__(self, argument):
@@ -40,14 +40,14 @@ class ConfirmDeleteAccountsView(ViewModel):
     if(self.isToLeave): return self.returnView([0,0])
     if(deleteSolicitations.get(idToDelete) == None): 
       print("Por favor, digite uma conta válida.")
-      return self.returnView(self.call())
+      return self.returnView(self.call)
     
     result = confirmDeleteAccountsController.deleteAccount(deleteSolicitations[account], account)
 
-    if(type(result) == right): print("Conta deletada com sucesso!")
+    if(type(result) == Right): print("Conta deletada com sucesso!")
     else: print("Desculpe, não foi possível deletar a conta. Tente novamente.")
-    
-    return self.returnView(self.call())
+
+    return self.returnView(self.call)
       
         
 

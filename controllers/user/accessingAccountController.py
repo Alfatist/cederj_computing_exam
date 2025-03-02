@@ -3,14 +3,15 @@ from usecases.getStatementOfAccountJsonRepository import getStatementOfAccountJs
 from usecases.accessingAccountJsonRepository import addMoneyToBalanceAccountJsonRepository, changeHolderAddressJsonRepository, checkIfAccountExistJsonRepository, getAddressAccountJsonRepository, getBalanceAccountJsonRepository, transferMoneyAccountJsonRepository
 from core.either.either import Either
 from core.either.right import Right
+from usecases.orderDeleteAccountJsonRepository import orderDeleteAccountJsonRepository
 
 
 class AccessingAccountController(object):
   __holderName:str
   __accountId:str
-  def __init__(self, name:str, accountId:str): self.__name, self.__accountId = name, accountId
+  def __init__(self, name:str, accountId:str): self.__holderName, self.__accountId = name, accountId
 
-  def getName(self): return self.__name
+  def getName(self): return self.__holderName
   def getAccountId(self): return self.__accountId
 
   def addMoney(self, number: float) -> Either:
@@ -43,5 +44,7 @@ class AccessingAccountController(object):
       return fullStatementToString
     return "Desculpe, tivemos um erro ao tentar pegar o extrato."
     
-  def changeHolderAddress(self, newAddress):
-    return changeHolderAddressJsonRepository(self.__accountId, newAddress)
+  def changeHolderAddress(self, newAddress) -> Either: return changeHolderAddressJsonRepository(self.__accountId, newAddress)
+
+  def orderDeleteAccount(self):
+      return orderDeleteAccountJsonRepository(self.__accountId, self.__holderName)

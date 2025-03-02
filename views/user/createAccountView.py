@@ -38,7 +38,7 @@ class CreateAccountView(ViewModel):
       return self.returnView(["3", self.holderName])
     
     print("Desculpe, algo deu erro internamente. Por favor, tente novamente.")
-    return self.returnView(self.call())
+    return self.returnView(self.call)
   
   def __caseSaving(self):
     addressUser = self.inputView("Insira o endereço: ")
@@ -48,7 +48,7 @@ class CreateAccountView(ViewModel):
       print("Conta criada com sucesso!")
       return self.returnView(["3", self.holderName])
     print("Desculpe, algo deu erro internamente. Por favor, tente novamente.")
-    return self.returnView(self.call())
+    return self.returnView(self.call)
   
   def __askForAgency(self):
     if(self.isToLeave): return self.returnView([0,0])

@@ -27,11 +27,11 @@ class AuthAdminView(ViewModel):
       case -1: return self.returnView(["-1", authAdminController.getName()])
       case 1:
         print("Desculpe, não conseguimos encontrar a conta ") 
-        return self.returnView(self.call())
+        return self.returnView(self.call)
       case 2: 
         password = self.inputView("Senha inválida. Por favor digite novamente ou '-1' para voltar: ")
-        if(password == "-1"): return self.returnView(self.call())
+        if(password == "-1"): return self.returnView(self.call)
         return self.call(AuthAdminController(name=authAdminController.getName(), password=password ), isToNullValues=False)
       case _:
         print("Desculpe, tivemos um erro interno. Tente novamente: ")
-        return self.returnView(self.call())
+        return self.returnView(self.call)
