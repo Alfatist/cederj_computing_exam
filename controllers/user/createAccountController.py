@@ -1,6 +1,6 @@
 from core.either.left import Left
-from updates.createAccountsJsonRepository import CreateCurrentAccountJsonRepository, CreateSavingAccountJsonRepository
-from updates.getAvailableAccountsJsonRepository import getAccountByIdJsonRepository, GetAvailableAccountsJsonRepository
+from usecases.createAccountsJsonRepository import CreateCurrentAccountJsonRepository, CreateSavingAccountJsonRepository
+from usecases.getAvailableAccountsJsonRepository import getAccountByIdJsonRepository, GetAvailableAccountsJsonRepository
 from core.either.either import Either
 from core.either.right import Right
 

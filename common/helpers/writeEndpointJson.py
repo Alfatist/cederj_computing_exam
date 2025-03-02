@@ -12,5 +12,4 @@ def writeEndpointJson(fileName:str, write) -> Either:
     open(pathJson, "w").write(newJson)
     return Right("Successfully wrote.")
   except Exception as e:
-    print(f"Writing error. Message: {e}")
-    return Left("Failure writing")
+    return Left("Failure writing", 5)

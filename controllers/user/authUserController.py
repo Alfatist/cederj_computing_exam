@@ -1,6 +1,6 @@
 from core.either.either import Either
 from core.either.right import Right
-from updates.authUserJsonRepository import AuthUserJsonRepository
+from usecases.authUserJsonRepository import AuthUserJsonRepository
 
 
 class AuthUserController(object):

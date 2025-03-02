@@ -1,4 +1,5 @@
 from views.admin.authAdminView import AuthAdminView
+from views.admin.confirmDeleteAccountsView import ConfirmDeleteAccountsView
 from views.user.accessAccountView import AccessAccountView
 from views.user.accessingAccountView import AccessingAccountView
 from views.user.authView import AuthView
@@ -16,7 +17,7 @@ class __mainController:
     self.keyValue, self.arguments, self.isToPopExitTutorial = keyValue, arguments, True
 
   def popExitTutorialIfNeed(self):
-    if(self.isToPopExitTutorial): print("\nLembre-se! Você pode sempre voltar a tela inicial digitando '0'")
+    if(self.isToPopExitTutorial): print("\nLembre-se! Você pode sempre voltar a tela inicial digitando '0'\n\n")
     self.isToPopExitTutorial = False
   
   def resetValues(self):
@@ -41,15 +42,18 @@ def arguments() -> str: return controller.arguments
 
 
 while(True):
-  if(getKeyValue() == None ): 
-    controller.resetValues()
-    initialResult = input("\n\n\n\n\n\n\n\n\n===================\n\n    CEDERJ BANK\n\n===================\nEntre (1) | Cadastre-se (2) ")
-    controller.keyValue = initialResult
-    if(not (initialResult == "1" or initialResult == "2" or initialResult == "admin")): 
-      controller.keyValue = None
-      print("Valor inválido")
 
   match getKeyValue():
+
+    case None: 
+      controller.resetValues()
+      initialResult = input("\n\n\n\n\n\n\n\n\n\n\n\n\n\n===================\n\n    CEDERJ BANK\n\n===================\nEntre (1) | Cadastre-se (2) ")
+      if(initialResult != "1" and initialResult != "2" and initialResult != "admin"): 
+        print("Valor inválido")
+        continue
+      controller.keyValue = initialResult
+      
+
     
     case "1": controller.executeView(AuthView)
       
@@ -63,11 +67,9 @@ while(True):
     
     case "5": controller.executeView(AccessingAccountView)
 
-    case "admin": controller.executeView(AuthAdminView) # deve retornar -1
-    
-    case None: continue
+    case "admin": controller.executeView(AuthAdminView) # deve retornar -1 e o nome do adm
 
-
+    case "-1": controller.executeView(ConfirmDeleteAccountsView)
     case _:
       print("Parabéns. Esta parte do sistema ainda não está pronta.")
       break

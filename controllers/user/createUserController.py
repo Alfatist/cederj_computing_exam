@@ -1,6 +1,6 @@
 from core.either.either import Either
 from core.either.right import Right
-from updates.createUserJsonRepository import CreateUserJsonRepository
+from usecases.createUserJsonRepository import CreateUserJsonRepository
 
 
 class CreateUserController(object):

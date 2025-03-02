@@ -6,7 +6,8 @@ codeErrorsMessages = {
   2: "Password wrong",
   3: "Account already exist",
   4: "Password weak. Minimum 8 characters",
-  5: "Error while trying to write in json"
+  5: "Error while trying to write in json",
+  6: "Error can't get json"
 }
 
 class Left(Either):

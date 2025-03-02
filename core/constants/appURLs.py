@@ -4,3 +4,4 @@ class AppURLs:
   clients = "clients.json"
   statements = "statements.json"
   authAdmin = "authAdmin.json"
+  deleteSolicitations = "deleteAccountSolicitation.json"

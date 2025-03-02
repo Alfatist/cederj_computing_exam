@@ -8,11 +8,11 @@ from core.either.either import Either
 from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
-def GetAvailableAccountsJsonRepository(name) -> Either:
+def GetAvailableAccountsJsonRepository(name) -> Left | list:
   try:
     availableAccounts = getEndpointJson(AppURLs.clients).get(name)
 
-    if(availableAccounts == None or availableAccounts == []): return Right("Success but doesn't exist", [])
+    if(availableAccounts == None or availableAccounts == []): return Right([])
     return Right(availableAccounts)
   except: return Left("Error while trying to get accounts")
 

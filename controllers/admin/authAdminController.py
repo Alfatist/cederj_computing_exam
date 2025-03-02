@@ -1,7 +1,7 @@
 from core.either.either import Either
 from core.either.left import Left
 from core.either.right import Right
-from updates.authAdminJsonRepository import AuthAdminJsonRepository
+from usecases.authAdminJsonRepository import AuthAdminJsonRepository
 
 
 class AuthAdminController(object):

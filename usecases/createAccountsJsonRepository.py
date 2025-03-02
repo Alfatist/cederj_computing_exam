@@ -1,7 +1,7 @@
 import sys
 import os
 
-from updates.crudAccountToUserJsonRepository import addAccountToUserJsonRepository
+from usecases.crudAccountToUserJsonRepository import addAccountToUserJsonRepository
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.helpers.writeEndpointJson import writeEndpointJson
