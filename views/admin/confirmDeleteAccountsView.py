@@ -35,17 +35,23 @@ class ConfirmDeleteAccountsView(ViewModel):
     for account in deleteSolicitationsAccounts:
       deleteSolicitationsAccountsWithHolderName += f"{account}: {deleteSolicitations[account]}\n"
 
-    idToDelete = self.inputView(f"Estas são as contas que estão pedindo exclusão:\n\n===\n{deleteSolicitationsAccountsWithHolderName}===\n\nPara confirmar a exclusão de um, digite o id.")
+    idToDelete = self.inputView(f"Estas são as contas que estão pedindo exclusão:\n\n===\n{deleteSolicitationsAccountsWithHolderName}===\n\nPara confirmar a exclusão de um, digite o id.\nPara rejeitar, digite o id precedido de um '!', como !1:\n\n")
     
     if(self.isToLeave): return self.returnView([0,0])
-    if(deleteSolicitations.get(idToDelete) == None): 
+    if(deleteSolicitations.get(idToDelete.replace("!", "", 1)) == None): 
       print("Por favor, digite uma conta válida.")
       return self.returnView(self.call)
     
-    result = confirmDeleteAccountsController.deleteAccount(deleteSolicitations[account], account)
-
-    if(type(result) == Right): print("Conta deletada com sucesso!")
-    else: print("Desculpe, não foi possível deletar a conta. Tente novamente.")
+    if(idToDelete[0] == "!"):
+      idToDelete = idToDelete.replace("!", "")
+      result = confirmDeleteAccountsController.denyDeleteAccount(idToDelete)
+      if(type(result) == Right): print(f"Solicitação de exclusão da conta {idToDelete} negada com sucesso!")
+      else: print("Desculpe, não foi possível deletar a conta. Tente novamente.")  
+    
+    else:
+      result = confirmDeleteAccountsController.deleteAccount(deleteSolicitations[idToDelete], idToDelete)
+      if(type(result) == Right): print(f"Conta {idToDelete} deletada com sucesso!")
+      else: print("Desculpe, não foi possível deletar a conta. Tente novamente.")
 
     return self.returnView(self.call)
       
