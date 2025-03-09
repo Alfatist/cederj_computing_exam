@@ -5,3 +5,5 @@ class AppURLs:
   statements = "statements.json"
   authAdmin = "authAdmin.json"
   deleteSolicitations = "deleteAccountSolicitation.json"
+  balanceSavingsMonthsxAccount = "balanceSavingsMonthsxAccounts.json"
+  balanceSavingsbyId = "balanceSavingsById.json"

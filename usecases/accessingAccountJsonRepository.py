@@ -2,6 +2,8 @@ import sys
 import os
 import datetime
 
+from usecases.addToStatementJsonRepository import addToStatementJsonRepository
+
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from common.helpers.writeEndpointJson import writeEndpointJson
 from core.either.left import Left
@@ -10,11 +12,11 @@ from core.either.either import Either
 from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
-def addMoneyToBalanceAccountJsonRepository(account:str, number:float) -> Either:
+def addMoneyToBalanceAccountJsonRepository(account:str, number:float, toIncludeStatement = True) -> Either:
   try:
     accounts = getEndpointJson(AppURLs.accounts)
     accounts[account]["balance"] += number
-    addToStatementDepositJsonRepository(account, number)
+    if(toIncludeStatement): addToStatementJsonRepository(account, f"Depósito de {number} reais")
     return writeEndpointJson(AppURLs.accounts, accounts)
   except: return Left("Erro desconhecido.")
   
@@ -35,27 +37,14 @@ def transferMoneyAccountJsonRepository(accountTransfering, accountToTransfer, va
     fromAccount["balance"] -= value
     toAccount["balance"] += value
     accounts[accountTransfering], accounts[accountToTransfer] = fromAccount, toAccount
-    addToStatementTransferJsonRepository(accountTransfering, value, accountToTransfer)
+    
+    addToStatementJsonRepository(accountTransfering ,f"Transferência de {value} reais para a conta de id {accountToTransfer}")
+    addToStatementJsonRepository(accountToTransfer ,f"Transferência de {value} reais vindo da conta de id {accountTransfering}")
+
     return writeEndpointJson(AppURLs.accounts, accounts)
   except:
     return Left("Erro desconhecido")
 
-
-def addToStatementDepositJsonRepository(account, value) -> Either:
-  dateNow = datetime.datetime.today().strftime('%d/%m/%Y')
-  statements = getEndpointJson(AppURLs.statements)
-  if(statements.get(account) == None ): statements[account] = {}
-  if(statements[account].get(dateNow) == None):  statements[account][dateNow] = []    
-  statements[account][dateNow].append(f"Depósito de {value} reais")
-  return writeEndpointJson(AppURLs.statements, statements)
-    
-def addToStatementTransferJsonRepository(account, value, receiverAccount) -> Either:
-  dateNow = datetime.datetime.today().strftime('%d/%m/%Y')
-  statements = getEndpointJson(AppURLs.statements)
-  if(statements.get(account) == None ): statements[account] = {}
-  if(statements[account].get(dateNow) == None):  statements[account][dateNow] = []
-  statements[account][dateNow].append(f"Transferência de {value} reais para a conta de id {receiverAccount}")
-  return writeEndpointJson(AppURLs.statements, statements)
 
 def changeHolderAddressJsonRepository(account, newAddress) -> Either:
   try:
