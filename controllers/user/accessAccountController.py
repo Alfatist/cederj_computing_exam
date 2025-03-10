@@ -20,7 +20,7 @@ class AccessAccountController(object):
   
   def checkAccountExistById(self, idAccount) -> bool:
     try: 
-      self.__availableAccounts.index(int(idAccount))
+      self.__availableAccounts.index(str(idAccount))
       return True
     except: return False
   

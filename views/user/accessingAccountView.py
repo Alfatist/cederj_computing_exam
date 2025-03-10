@@ -36,6 +36,7 @@ class AccessingAccountView(ViewModel):
         
         if(type(result) == Right): print(f"\n{valueToAdd} adicionado na conta com êxito!")
         if(type(result) == Left): print("\n Algo deu errado. Por favor, repita a operação.")
+        
         self.pressAnyKeyToContinue()
         return self.returnView(self.call)
       case "2":

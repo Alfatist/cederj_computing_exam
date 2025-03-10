@@ -39,20 +39,18 @@ def yieldSaveAccountJsonRepository() -> Left | dict:
     if(nextMonthToYield == None): balanceSavingsMonthsxAccount[dateNextMonth] = []
 
     for index in indexListToReceive: 
-      print(balanceSavingsById)
       percentage = balanceSavingsById[index]["yield"]
-      
       
       oldValue = balanceSavingsById[index][dateNowStr]
       valueToReceive = balanceSavingsById[index][dateNowStr] * percentage
-      print(valueToReceive)
 
       balanceSavingsById[index][dateNextMonth] = oldValue + valueToReceive
       balanceSavingsById[index].pop(dateNowStr)
       balanceSavingsMonthsxAccount[dateNowStr].remove(index)
+      if(balanceSavingsMonthsxAccount[dateNowStr] == []): balanceSavingsMonthsxAccount.pop(dateNowStr)
       balanceSavingsMonthsxAccount[dateNextMonth].append(index)
       
-      addMoneyToBalanceAccountJsonRepository(index, valueToReceive, False)
+      addMoneyToBalanceAccountJsonRepository(index, valueToReceive, False, False)
       addToStatementJsonRepository(index, f"Rendimento de {valueToReceive} sobre o valor {oldValue}")
       writeEndpointJson(AppURLs.balanceSavingsbyId, balanceSavingsById)
       writeEndpointJson(AppURLs.balanceSavingsMonthsxAccount, balanceSavingsMonthsxAccount)
@@ -60,5 +58,4 @@ def yieldSaveAccountJsonRepository() -> Left | dict:
 
 
   except Exception as e:
-    #return Left(e)
-    raise e
+    return Left(e)

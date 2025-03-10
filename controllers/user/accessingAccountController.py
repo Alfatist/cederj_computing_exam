@@ -27,7 +27,7 @@ class AccessingAccountController(object):
     return checkIfAccountExistJsonRepository(accountToCheck)
   
   def transferMoneyToAccount(self, accountToTransfer:str, value: float) -> Either:
-    if(0 < value < self.getBalance() and accountToTransfer.isnumeric()): return transferMoneyAccountJsonRepository(self.__accountId, accountToTransfer, value)
+    if(0 < value < self.getBalance() and accountToTransfer.isnumeric()): return transferMoneyAccountJsonRepository(str(self.__accountId), str(accountToTransfer), value)
     return Left("Valor inválido.")
   
   def getStatementOfAccount(self) -> str:

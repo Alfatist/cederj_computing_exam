@@ -10,11 +10,12 @@ from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
 def deleteAccountJsonRepository(holderName, account) -> Either:
+  account = str(account)
   try:
     resultClient = getEndpointJson(AppURLs.clients)
     resultSolicitations = getEndpointJson(AppURLs.deleteSolicitations)
 
-    resultClient[holderName].remove(int(account))
+    resultClient[holderName].remove(account)
     resultSolicitations.pop(account)
 
     writeEndpointJson(AppURLs.clients, resultClient)
