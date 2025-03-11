@@ -7,3 +7,4 @@ class AppURLs:
   deleteSolicitations = "deleteAccountSolicitation.json"
   balanceSavingsMonthsxAccount = "balanceSavingsMonthsxAccounts.json"
   balanceSavingsbyId = "balanceSavingsById.json"
+  datesToDiscountXtaxByAccount = "datesToDiscountCurrentAccounts.json"

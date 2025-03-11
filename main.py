@@ -1,4 +1,5 @@
-from usecases.yieldSaveAccountJsonRepository import yieldSaveAccountJsonRepository
+from usecases.discountTaxCurrentAccountJsonRepository import taxCurrentAccountsJsonRepository
+from usecases.yieldSavingAccountsJsonRepository import yieldSavingAccountsJsonRepository
 from views.admin.authAdminView import AuthAdminView
 from views.admin.confirmDeleteAccountsView import ConfirmDeleteAccountsView
 from views.user.accessAccountView import AccessAccountView
@@ -31,7 +32,6 @@ class __mainController:
       if(result == None): self.keyValue = result
       else: self.keyValue, self.arguments = result
     except Exception as e:
-      raise e
       print("Pedimos que se logue novamente. Pedimos desculpas pela inconveniência.")
       
       self.keyValue = None
@@ -44,7 +44,8 @@ def arguments() -> str: return controller.arguments
 
 
 while(True):
-  yieldSaveAccountJsonRepository() 
+  yieldSavingAccountsJsonRepository() 
+  taxCurrentAccountsJsonRepository()
 
   match getKeyValue():
 

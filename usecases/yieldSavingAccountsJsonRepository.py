@@ -15,7 +15,7 @@ from core.constants.appURLs import AppURLs
 
   
 
-def yieldSaveAccountJsonRepository() -> Left | dict:
+def yieldSavingAccountsJsonRepository() -> Left | dict:
   '''yield every account programmed to yield today'''
   try:
     
