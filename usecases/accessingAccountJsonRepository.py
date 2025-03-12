@@ -2,6 +2,10 @@ import sys
 import os
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+from usecases.removeMoneyFromBalanceAccountJsonRepository import removeMoneyFromBalanceAccountJsonRepository
+from usecases.getValueToTaxFromSpecialCheckJsonRepository import getValueToTaxFromSpecialCheckJsonRepository
+from usecases.addMoneyToSpecialCheckJsonrepository import addMoneyToSpecialCheckJsonrepository 
 from usecases.addToStatementJsonRepository import addToStatementJsonRepository
 from usecases.addToYieldRepository import addToYieldJsonRepository
 from common.helpers.writeEndpointJson import writeEndpointJson
@@ -12,15 +16,18 @@ from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
   
 
-
 def addMoneyToBalanceAccountJsonRepository(account:str, number:float, isToIncludeStatement = True, isToIncludeYield = True) -> Either:
+  '''add or remove money to account balance. Also include in statement and yield if needed'''
   try:
+    if(number == 0): return Left(ValueError, 7)
+    if(number < 0): return removeMoneyFromBalanceAccountJsonRepository(account, -number, isToIncludeStatement)
+  
     accounts = getEndpointJson(AppURLs.accounts)
-    accounts[account]["balance"] += number
-    
-    if(accounts[account]["type"] == "Conta Poupança" and isToIncludeYield): addToYieldJsonRepository(account, number)
 
+    accounts[account]["balance"] += number
+    if(accounts[account]["type"] == "Conta Poupança" and isToIncludeYield): addToYieldJsonRepository(account, number)
     if(isToIncludeStatement): addToStatementJsonRepository(account, f"Depósito de {number} reais")
+  
     return writeEndpointJson(AppURLs.accounts, accounts)
   except Exception as e:
     return Left(e) 
@@ -50,8 +57,8 @@ def transferMoneyAccountJsonRepository(accountTransfering, accountToTransfer, va
 
     return Right("Transferência realizada com sucesso")
     
-  except:
-    return Left("Erro desconhecido")
+  except Exception as e:
+    return Left(e)
 
 
 def changeHolderAddressJsonRepository(account, newAddress) -> Either:
@@ -59,5 +66,5 @@ def changeHolderAddressJsonRepository(account, newAddress) -> Either:
     newJson = getEndpointJson(AppURLs.accounts)
     newJson[account]["holderAddress"] = newAddress
     return writeEndpointJson(AppURLs.accounts, newJson)
-  except:
-    return Left("Erro desconhecido")
+  except Exception as e:
+    return Left(e)

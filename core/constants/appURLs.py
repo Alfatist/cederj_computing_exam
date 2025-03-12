@@ -8,3 +8,4 @@ class AppURLs:
   balanceSavingsMonthsxAccount = "balanceSavingsMonthsxAccounts.json"
   balanceSavingsbyId = "balanceSavingsById.json"
   datesToDiscountXtaxByAccount = "datesToDiscountCurrentAccounts.json"
+  specialCheck = "specialChecks.json"

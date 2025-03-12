@@ -11,10 +11,10 @@ from core.constants.appURLs import AppURLs
 
 
 def CreateUserJsonRepository(name, password) -> Either:
-  if(len(password) < 8 ): return Left("", 4)
+  if(len(password) < 8 ): return Left(ValueError, 4)
   users = getEndpointJson(AppURLs.authClients)
 
-  if(users.get(name) != None): return Left("", 3)
+  if(users.get(name) != None): return Left(ValueError, 3)
   users[name] = {"password": password}
   return writeEndpointJson(AppURLs.authClients, users)
   

@@ -9,16 +9,8 @@ from core.either.either import Either
 from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
-def addAccountToUserJsonRepository(user, account) -> Either:
-  user = str(user)
-  try:
-    users = getEndpointJson(AppURLs.clients)
-    if(users.get(user) == None): users[user] = []
-    users[user].append(account)
-    return writeEndpointJson(AppURLs.clients, users)
-  except:
-    return Left(Exception)
-
-
-# testes
-# print(datetime.datetime.today().strftime('%d/%m/%Y'))
+def getAvailableCheckJsonRepository(accountID) -> Left | float:
+  try: 
+    specialChecks = getEndpointJson(AppURLs.specialCheck)
+    return float(specialChecks[accountID]["checkAvailable"])
+  except Exception as e: return Left(e)

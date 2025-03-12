@@ -12,10 +12,10 @@ from core.constants.appURLs import AppURLs
 def AuthUserJsonRepository(name, password) -> Either:
   users = getEndpointJson(AppURLs.authClients)
 
-  if(users.get(name) == None): return Left("", 1)
+  if(users.get(name) == None): return Left(ValueError, 1)
 
   if(users[name]["password"] == password): return Right("deu certo!!")
-  return Left("deu errado.", 2)
+  return Left(ValueError, 2)
 
 
 # testes 

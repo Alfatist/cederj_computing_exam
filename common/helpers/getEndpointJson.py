@@ -8,5 +8,5 @@ def getEndpointJson(fileName:str) -> Left | dict:
     pathJson = os.path.join(os.getcwd(), "core/assets", fileName)
     file = open(pathJson, "r")
     return json.load(file)
-  except:
-    return Left("Error while trying to get JSON", 6)
+  except Exception as e:
+    return Left(e, 6)

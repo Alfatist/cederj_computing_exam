@@ -12,10 +12,10 @@ from core.constants.appURLs import AppURLs
 def AuthAdminJsonRepository(name, password) -> Either:
   admin = getEndpointJson(AppURLs.authAdmin)
 
-  if(admin.get(name) == None): return Left("", 1)
+  if(admin.get(name) == None): return Left(ValueError, 1)
 
-  if(admin[name]["password"] == password): return Right("deu certo!!")
-  return Left("deu errado.", 2)
+  if(admin[name]["password"] == password): return Right("Deu certo!!")
+  return Left(ValueError, 2)
 
 
 # testes 

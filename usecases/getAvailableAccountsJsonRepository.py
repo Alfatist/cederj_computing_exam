@@ -14,7 +14,7 @@ def GetAvailableAccountsJsonRepository(name) -> Left | list:
 
     if(availableAccounts == None or availableAccounts == []): return Right([])
     return Right(availableAccounts)
-  except: return Left("Error while trying to get accounts")
+  except: return Left(ConnectionError, 6)
 
 
 def getAccountByIdJsonRepository(idAccount: any):

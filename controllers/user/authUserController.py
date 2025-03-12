@@ -21,6 +21,5 @@ class AuthUserController(object):
 
   def auth(self) -> Either:
     either = AuthUserJsonRepository(self.__name, self.__password)
-    if(type(either) == Right):
-      return -1
-    return either.result  
+    if(type(either) == Right): return -1
+    return either.code  

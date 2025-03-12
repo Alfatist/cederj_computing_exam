@@ -31,13 +31,16 @@ def yieldSavingAccountsJsonRepository() -> Left | dict:
     indexListToReceive = balanceSavingsMonthsxAccount.get(dateNowStr)
     nextMonthToYield = balanceSavingsMonthsxAccount.get(dateNextMonth)
 
-    if(indexListToReceive == None or []): 
+    if(indexListToReceive == None or indexListToReceive == []): 
       indexListToReceive = []
       return Right("No savings Account to receive yield")
     
     
     if(nextMonthToYield == None): balanceSavingsMonthsxAccount[dateNextMonth] = []
 
+    try: indexListToReceive.remove("default")
+    except: pass
+    
     for index in indexListToReceive: 
       percentage = balanceSavingsById[index]["yield"]
       

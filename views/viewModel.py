@@ -9,7 +9,7 @@ class ViewModel:
   def call(self):
     raise NotImplementedError
 
-  def inputView(self, message:str):
+  def inputView(self, message:str = ""):
     if(not self.isToLeave): 
       valueInput = input(message)
       if(valueInput == self.exitValue): self.isToLeave = True

@@ -24,9 +24,9 @@ def CreateCurrentAccountJsonRepository(holderName, address, agency = "0001") -> 
     accounts[accountID] = newJson
     either = writeEndpointJson(AppURLs.accounts, accounts)
     if(type(either) == Right): return addAccountToUserJsonRepository(holderName, accountID)
-    return Left("Não foi possível criar a nova conta.", 5)
+    return Left(ConnectionError, 5)
   except:
-    return Left("Erro desconhecido.")
+    return Left(Exception)
   
 def CreateSavingAccountJsonRepository(holderName, address, agency = "0001") -> Either:
   try:
@@ -41,6 +41,6 @@ def CreateSavingAccountJsonRepository(holderName, address, agency = "0001") -> E
     accounts[accountID] = newJson
     either = writeEndpointJson(AppURLs.accounts, accounts)
     if(type(either) == Right): return addAccountToUserJsonRepository(holderName, accountID)
-    return Left("Não foi possível criar a nova conta.", 5)
+    return Left(ConnectionError, 5)
   except:
-    return Left("Erro desconhecido.")
+    return Left(Exception)

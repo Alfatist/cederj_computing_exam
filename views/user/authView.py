@@ -24,7 +24,7 @@ class AuthView(ViewModel):
     match result:
       case -1: return self.returnView(["3", authUserController.getName()])
       case 1:
-        print("Desculpe, não conseguimos encontrar a conta ") 
+        print("Erro ao autenticar, usuário não encontrado") 
         return self.returnView(self.call)
       case 2: 
         password = self.inputView("Senha inválida. Por favor digite novamente ou '-1' para voltar: ")
