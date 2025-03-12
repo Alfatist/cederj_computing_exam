@@ -1,3 +1,4 @@
+from datetime import datetime
 from core.either.left import Left
 from usecases.getAvailableCheckJsonRepository import getAvailableCheckJsonRepository
 from usecases.getValueToTaxFromSpecialCheckJsonRepository import getValueToTaxFromSpecialCheckJsonRepository
@@ -39,7 +40,16 @@ class AccessingAccountController(object):
     if(0 < value < self.getBalance() and accountToTransfer.isnumeric()): return transferMoneyAccountJsonRepository(str(self.__accountId), str(accountToTransfer), value)
     return Left(ValueError, 12)
   
-  def getStatementOfAccount(self) -> str:
+  def isDateInRange(self, date_str, start_date_str, end_date_str, date_format="%d/%m/%Y"):
+    try:
+        date = datetime.strptime(date_str, date_format)
+        start_date = datetime.strptime(start_date_str, date_format)
+        end_date = datetime.strptime(end_date_str, date_format)
+        return start_date <= date <= end_date
+    except ValueError:
+        return False
+    
+  def getStatementOfAccount(self, dateEntry = "", dateEnding = "") -> str:
     statementResponse = getStatementOfAccountJsonRepository(self.__accountId)
     responseType = type(statementResponse)
     if(responseType == Right):
@@ -47,10 +57,25 @@ class AccessingAccountController(object):
       if (jsonStatementAccount == None or jsonStatementAccount == {}): return "Não há extrato para esta conta."
       fullStatementToString = ""
       dates = list(jsonStatementAccount.keys())
+      if(dateEntry == "" and dateEnding == ""):
+        for date in dates:
+          fullStatementToString += f"{date}:\n\n"
+          fullStatementToString += f"{"\n".join(jsonStatementAccount[date])}\n\n"
+        return fullStatementToString
+      try:
+        datetime.strptime(dateEntry, "%d/%m/%Y")
+        datetime.strptime(dateEnding, "%d/%m/%Y")  
+      except:
+        return "Desculpe, tente novamente com uma data válida."
+      
+      
       for date in dates:
-        fullStatementToString += f"{date}:\n\n"
-        fullStatementToString += f"{"\n".join(jsonStatementAccount[date])}\n\n"
+        if(self.isDateInRange(date, dateEntry, dateEnding)):
+          fullStatementToString += f"{date}:\n\n"
+          fullStatementToString += f"{"\n".join(jsonStatementAccount[date])}\n\n"
+      if(fullStatementToString == "" ): return "Não há extrato para a data especificada."
       return fullStatementToString
+      
     return "Desculpe, tivemos um erro ao tentar pegar o extrato."
     
   def changeHolderAddress(self, newAddress) -> Either: return changeHolderAddressJsonRepository(self.__accountId, newAddress)

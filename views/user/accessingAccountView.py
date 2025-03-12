@@ -82,7 +82,11 @@ class AccessingAccountView(ViewModel):
         self.pressAnyKeyToContinue()
         return self.returnView(self.call)
       case "4":
-        print(f"\n{self.accessingAccountController.getStatementOfAccount()}\n")
+
+        dateEntry = self.inputView("Selecione a partir de qual data gostaria de começar, ou insira nada para pegar todo o extrato (dd/mm/YYYY): ").strip()
+        dateEnding = ""
+        if(not (dateEntry == None or dateEntry == "")): dateEnding = self.inputView("Até qual data? (dd/mm/YYYY): ").strip()
+        print(f"\n{self.accessingAccountController.getStatementOfAccount(dateEntry, dateEnding)}\n")
         self.pressAnyKeyToContinue()
         return self.returnView(self.call) 
       case "5": 
