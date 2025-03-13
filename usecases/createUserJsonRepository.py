@@ -10,19 +10,14 @@ from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
 
-def CreateUserJsonRepository(name, password) -> Either:
-  if(len(password) < 8 ): return Left(ValueError, 4)
-  users = getEndpointJson(AppURLs.authClients)
+def createUserJsonRepository(name, password) -> Either:
+  try:
+    if(len(password) < 8 ): return Left(ValueError, 4)
 
-  if(users.get(name) != None): return Left(ValueError, 3)
-  users[name] = {"password": password}
-  return writeEndpointJson(AppURLs.authClients, users)
-  
-  
-  
+    users = getEndpointJson(AppURLs.authClients)
+    if(type(users) == Left): return users
 
-
-# testes 
-# print(CreateUserJsonRepository("mateus", "123456789").message) # should return an account exist
-# print(CreateUserJsonRepository("Mateus", "123456789").message) # should rewrite the json
-# print(CreateUserJsonRepository("mateus", "123456789").message) # should rewrite the json
+    if(users.get(name) != None): return Left(ValueError, 3)
+    users[name] = {"password": password}
+    return writeEndpointJson(AppURLs.authClients, users)
+  except Exception as e: return Left(e)

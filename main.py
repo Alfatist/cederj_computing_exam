@@ -32,8 +32,7 @@ class __mainController:
       if(result == None): self.keyValue = result
       else: self.keyValue, self.arguments = result
     except Exception as e:
-      raise e
-      print("Pedimos que se logue novamente. Pedimos desculpas pela inconveniência.")
+      print(f"Pedimos que se logue novamente. Pedimos desculpas pela inconveniência.\nErro: {e}")
       
       
       self.keyValue = None

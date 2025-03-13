@@ -7,12 +7,13 @@ from core.either.right import Right
 from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
-def getAvailableAccountsJsonRepository(name) -> Left | list:
+def getAccountByIdJsonRepository(idAccount: any) -> Left | str:
   try:
-    accounts = getEndpointJson(AppURLs.clients)
+    accounts = getEndpointJson(AppURLs.accounts)
     if(type(accounts) == Left): return accounts
-    availableAccounts = accounts.get(name)
-
-    if(availableAccounts == None or availableAccounts == []): return Right([])
-    return availableAccounts
+    idAccount = str(idAccount)
+    
+    account = accounts.get(idAccount)
+    typeAccount = account.get("type")
+    return f"{typeAccount} ({idAccount})"
   except Exception as e: return Left(e)

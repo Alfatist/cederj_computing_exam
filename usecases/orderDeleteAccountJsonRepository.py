@@ -12,6 +12,7 @@ from core.constants.appURLs import AppURLs
 def orderDeleteAccountJsonRepository(idAccount, holderName) -> Left | dict:
   try: 
     json = getEndpointJson(AppURLs.deleteSolicitations)
+    if(type(json) == Left): return json
     json[idAccount] = holderName
     return writeEndpointJson(AppURLs.deleteSolicitations, json)
   except Exception as e: return Left(e)

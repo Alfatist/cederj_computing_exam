@@ -19,6 +19,8 @@ def removeMoneyFromBalanceAccountJsonRepository(account:str, number:float, isToI
   if(number < 0): number = -number
   try:
     accounts = getEndpointJson(AppURLs.accounts)
+    if(type(accounts) == Left): return accounts
+
     modifiedBalance = accounts[account]["balance"] - number
     
     if(accounts[account]["type"] == "Conta Poupança"): 
@@ -28,13 +30,16 @@ def removeMoneyFromBalanceAccountJsonRepository(account:str, number:float, isToI
       valueMissingNegative = modifiedBalance
       modifiedBalance -= valueMissingNegative
       valueAvailableSpecialCheck = getAvailableCheckJsonRepository(account)
+      if(type(valueAvailableSpecialCheck) == Left): return valueAvailableSpecialCheck
       if(valueAvailableSpecialCheck + valueMissingNegative < 0): return Left(ValueError, 9)
-      removeMoneyFromSpecialCheckJsonrepository(account, valueMissingNegative)
+      resultRemoveMoney = removeMoneyFromSpecialCheckJsonrepository(account, valueMissingNegative)
+      if(type(resultRemoveMoney) == Left): return resultRemoveMoney
 
     accounts[account]["balance"] = modifiedBalance
-    if(isToIncludeStatement): addToStatementJsonRepository(account, f"Saque de {number} reais")
+    if(isToIncludeStatement): 
+      addedToStatement = addToStatementJsonRepository(account, f"Saque de {number} reais")
+      if(type(addedToStatement) == Left): return addedToStatement
   
     return writeEndpointJson(AppURLs.accounts, accounts)
   
-  except Exception as e:
-    return Left(e) 
+  except Exception as e: return Left(e) 

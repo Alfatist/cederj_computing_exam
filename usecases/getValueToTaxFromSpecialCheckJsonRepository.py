@@ -9,5 +9,6 @@ from core.constants.appURLs import AppURLs
 def getValueToTaxFromSpecialCheckJsonRepository(accountID) -> Left | float:
   try: 
     specialChecks = getEndpointJson(AppURLs.specialCheck)
+    if(type(specialChecks) == Left): return specialChecks
     return float(specialChecks[accountID]["valueToTax"])
   except Exception as e: return Left(e)

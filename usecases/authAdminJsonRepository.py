@@ -11,9 +11,8 @@ from core.constants.appURLs import AppURLs
 
 def AuthAdminJsonRepository(name, password) -> Either:
   admin = getEndpointJson(AppURLs.authAdmin)
-
+  if(type(admin) == Left): return admin
   if(admin.get(name) == None): return Left(ValueError, 1)
-
   if(admin[name]["password"] == password): return Right("Deu certo!!")
   return Left(ValueError, 2)
 

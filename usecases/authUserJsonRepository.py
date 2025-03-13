@@ -11,6 +11,7 @@ from core.constants.appURLs import AppURLs
 
 def AuthUserJsonRepository(name, password) -> Either:
   users = getEndpointJson(AppURLs.authClients)
+  if(type(users) == Left): return users
 
   if(users.get(name) == None): return Left(ValueError, 1)
 

@@ -1,7 +1,5 @@
-from core.either.left import Left
-from usecases.createAccountsJsonRepository import CreateCurrentAccountJsonRepository, CreateSavingAccountJsonRepository
-from usecases.getAvailableAccountsJsonRepository import getAccountByIdJsonRepository, GetAvailableAccountsJsonRepository
-from core.either.either import Either
+from usecases.createCurrentAccountJsonRepository import createCurrentAccountJsonRepository
+from usecases.createSavingAccountJsonRepository import createSavingAccountJsonRepository
 from core.either.right import Right
 
 
@@ -14,11 +12,13 @@ class CreateAccountController(object):
 
 
   def createCurrentAccount(self, address, agency) -> bool:
-    if(type(CreateCurrentAccountJsonRepository(self.__name, address, agency)) == Right): return True
+    result = createCurrentAccountJsonRepository(self.__name, address, agency)
+    if(type(result) == Right): return True
     return False
 
   
   def createSavingAccount(self, address, agency) -> bool:
-    if(type(CreateSavingAccountJsonRepository(self.__name, address, agency)) == Right): return True
+    result = createSavingAccountJsonRepository(self.__name, address, agency)
+    if(type(result) == Right): return True
     return False
   

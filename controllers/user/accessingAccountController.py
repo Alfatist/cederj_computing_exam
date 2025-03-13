@@ -1,9 +1,15 @@
 from datetime import datetime
+from common.helpers.isDateInRange import isDateInRange
 from core.either.left import Left
 from usecases.getAvailableCheckJsonRepository import getAvailableCheckJsonRepository
 from usecases.getValueToTaxFromSpecialCheckJsonRepository import getValueToTaxFromSpecialCheckJsonRepository
 from usecases.getStatementOfAccountJsonRepository import getStatementOfAccountJsonRepository
-from usecases.accessingAccountJsonRepository import addMoneyToBalanceAccountJsonRepository, changeHolderAddressJsonRepository, checkIfAccountExistJsonRepository, getAddressAccountJsonRepository, getBalanceAccountJsonRepository, transferMoneyAccountJsonRepository
+from usecases.addMoneyToBalanceAccountJsonRepository import addMoneyToBalanceAccountJsonRepository
+from usecases.changeHolderAddressJsonRepository import changeHolderAddressJsonRepository
+from usecases.checkIfAccountExistJsonRepository import checkIfAccountExistJsonRepository
+from usecases.getAddressAccountJsonRepository import getAddressAccountJsonRepository
+from usecases.getBalanceAccountJsonRepository import getBalanceAccountJsonRepository
+from usecases.transferMoneyAccountJsonRepository import transferMoneyAccountJsonRepository
 from core.either.either import Either
 from core.either.right import Right
 from usecases.orderDeleteAccountJsonRepository import orderDeleteAccountJsonRepository
@@ -27,7 +33,7 @@ class AccessingAccountController(object):
     if(number < 0): return Left(ValueError, 8)
     return removeMoneyFromBalanceAccountJsonRepository(self.__accountId, number)
 
-  def getBalance(self) -> float: return getBalanceAccountJsonRepository(self.__accountId)
+  def getBalance(self) -> Left | float: return getBalanceAccountJsonRepository(self.__accountId)
   def getAvailableCheck(self) -> Left | float: return getAvailableCheckJsonRepository(self.__accountId)
   def getValueToPaySpecialCheck(self) -> Left | float: return getValueToTaxFromSpecialCheckJsonRepository(self.__accountId)
   def getAddress(self) -> Either: return getAddressAccountJsonRepository(self.__accountId)
@@ -37,17 +43,18 @@ class AccessingAccountController(object):
     return checkIfAccountExistJsonRepository(accountToCheck)
   
   def transferMoneyToAccount(self, accountToTransfer:str, value: float) -> Either:
-    if(0 < value < self.getBalance() and accountToTransfer.isnumeric()): return transferMoneyAccountJsonRepository(str(self.__accountId), str(accountToTransfer), value)
+
+    actualBalance = self.getBalance()
+    if(type(actualBalance) == Left): return actualBalance
+
+    availableCheck = self.getAvailableCheck()
+    if(type(availableCheck) == Left): availableCheck = 0
+
+    availableTotal = availableCheck
+    if(actualBalance > 0): availableTotal += actualBalance
+    
+    if(0 < value < actualBalance and accountToTransfer.isnumeric()): return transferMoneyAccountJsonRepository(str(self.__accountId), str(accountToTransfer), value)
     return Left(ValueError, 12)
-  
-  def isDateInRange(self, date_str, start_date_str, end_date_str, date_format="%d/%m/%Y"):
-    try:
-        date = datetime.strptime(date_str, date_format)
-        start_date = datetime.strptime(start_date_str, date_format)
-        end_date = datetime.strptime(end_date_str, date_format)
-        return start_date <= date <= end_date
-    except ValueError:
-        return False
     
   def getStatementOfAccount(self, dateEntry = "", dateEnding = "") -> str:
     statementResponse = getStatementOfAccountJsonRepository(self.__accountId)
@@ -68,9 +75,8 @@ class AccessingAccountController(object):
       except:
         return "Desculpe, tente novamente com uma data válida."
       
-      
       for date in dates:
-        if(self.isDateInRange(date, dateEntry, dateEnding)):
+        if(isDateInRange(date, dateEntry, dateEnding)):
           fullStatementToString += f"{date}:\n\n"
           fullStatementToString += f"{"\n".join(jsonStatementAccount[date])}\n\n"
       if(fullStatementToString == "" ): return "Não há extrato para a data especificada."
@@ -84,7 +90,11 @@ class AccessingAccountController(object):
 
   def paySpecialCheck(self) -> Either:
     balance = self.getBalance() 
+    if(type(balance) == Left): return balance
     if(balance <= 0): return Left(ValueError, 11)
+
     valueToPay = self.getValueToPaySpecialCheck()
+    if(type(valueToPay) == Left): return valueToPay
+
     if(balance > valueToPay): balance = valueToPay
     return paySpecialCheckJsonRepository(self.__accountId)

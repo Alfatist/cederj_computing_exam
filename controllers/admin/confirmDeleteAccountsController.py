@@ -1,10 +1,8 @@
 from core.either.either import Either
 from core.either.left import Left
-from core.either.right import Right
 from usecases.deleteAccountJsonRepository import deleteAccountJsonRepository
 from usecases.denyDeleteSolicitationJsonRepository import denyDeleteSolicitationJsonRepository
 from usecases.getDeleteSolicitationsJsonRepository import getDeleteSolicitationsJsonRepository
-from usecases.authAdminJsonRepository import AuthAdminJsonRepository
 
 
 class ConfirmDeleteAccountsController(object):
@@ -16,9 +14,7 @@ class ConfirmDeleteAccountsController(object):
     if(type(result) == dict): self.deleteSolicitations = result
     return result
   
-  def deleteAccount(self, holderName, idAccount) -> Either: 
-    return deleteAccountJsonRepository(holderName, idAccount)
+  def deleteAccount(self, holderName, idAccount) -> Either: return deleteAccountJsonRepository(holderName, idAccount)
   
-  def denyDeleteAccount(self, idAccount) -> Either:
-    return denyDeleteSolicitationJsonRepository(idAccount)
+  def denyDeleteAccount(self, idAccount) -> Either: return denyDeleteSolicitationJsonRepository(idAccount)
   
