@@ -13,6 +13,6 @@ def getAvailableAccountsJsonRepository(name) -> Left | list:
     if(type(accounts) == Left): return accounts
     availableAccounts = accounts.get(name)
 
-    if(availableAccounts == None or availableAccounts == []): return Right([])
+    if(availableAccounts == None or availableAccounts == []): return []
     return availableAccounts
   except Exception as e: return Left(e)

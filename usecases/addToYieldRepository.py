@@ -16,9 +16,11 @@ def addToYieldJsonRepository(account, value):
 
   dateNow = datetime.today()
   dateNextMonth = (dateNow + timedelta(days=30)).strftime('%d/%m/%Y')
-  if(value > 0):
-    if(balanceSavingsMonthsxAccount.get(dateNextMonth) == None): balanceSavingsMonthsxAccount[dateNextMonth] = balanceSavingsMonthsxAccount["default"]
-    if(balanceSavingsById.get(account) == None): balanceSavingsById[account] = balanceSavingsById["default"]
+
+  if(value >= 0):
+    dicti = {}
+    if(balanceSavingsMonthsxAccount.get(dateNextMonth) == None): balanceSavingsMonthsxAccount[dateNextMonth] = balanceSavingsMonthsxAccount["default"].copy()
+    if(balanceSavingsById.get(account) == None): balanceSavingsById[account] = balanceSavingsById["default"].copy()
 
     if(not verifyIfExistsInList(balanceSavingsMonthsxAccount[dateNextMonth], account)): 
       balanceSavingsMonthsxAccount[dateNextMonth].append(account)

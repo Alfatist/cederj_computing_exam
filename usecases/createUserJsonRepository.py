@@ -18,6 +18,7 @@ def createUserJsonRepository(name, password) -> Either:
     if(type(users) == Left): return users
 
     if(users.get(name) != None): return Left(ValueError, 3)
+    
     users[name] = {"password": password}
     return writeEndpointJson(AppURLs.authClients, users)
   except Exception as e: return Left(e)

@@ -9,19 +9,22 @@ from usecases.addToStatementJsonRepository import addToStatementJsonRepository
 
 from common.helpers.writeEndpointJson import writeEndpointJson
 from core.either.left import Left
+from core.either.either import Either
 from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
   
 
-def addMoneyToSpecialCheckJsonrepository(account, value) -> Left | float:
+def addMoneyToSpecialCheckJsonrepository(account, value) -> Either:
   '''Add money to special check. Negative values will remove.'''
-  if(value == 0): return Left(ValueError, 7)
   if(value < 0): return removeMoneyFromSpecialCheckJsonrepository(account, -value)
   try:
     specialChecks = getEndpointJson(AppURLs.specialCheck)
     indexDictToReceive = specialChecks.get(account)
-    if(indexDictToReceive == None or indexDictToReceive == {}): specialChecks[account] = specialChecks["default"]
+    if(indexDictToReceive == None or indexDictToReceive == {}): 
+      specialChecks[account] = specialChecks["default"].copy()
+    if(value == 0): return writeEndpointJson(AppURLs.specialCheck, specialChecks)
+
     
     addToStatementJsonRepository(account, f"Pago {value} reais do cheque especial.")
       
@@ -29,8 +32,7 @@ def addMoneyToSpecialCheckJsonrepository(account, value) -> Left | float:
     specialChecks[account]["valueToTax"] -= value
     if(getValueToTaxFromSpecialCheckJsonRepository(account) < 0): specialChecks[account]["valueToTax"] = 0
 
-    writeEndpointJson(AppURLs.specialCheck, specialChecks)
-    return 
+    return writeEndpointJson(AppURLs.specialCheck, specialChecks)
 
   except Exception as e:
     return Left(e)

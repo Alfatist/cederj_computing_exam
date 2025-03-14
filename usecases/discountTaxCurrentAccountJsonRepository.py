@@ -3,7 +3,7 @@ import os
 from datetime import datetime, timedelta
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-from usecases.accessingAccountJsonRepository import addMoneyToBalanceAccountJsonRepository
+from usecases.addMoneyToBalanceAccountJsonRepository import addMoneyToBalanceAccountJsonRepository
 from usecases.addToStatementJsonRepository import addToStatementJsonRepository
 
 from common.helpers.writeEndpointJson import writeEndpointJson
@@ -37,8 +37,9 @@ def taxCurrentAccountsJsonRepository(nextTax = 20) -> Left | dict:
       return Right("No current Account to discount tax")
     
     
-    if(datesToDiscountXtaxByAccount.get(dateNextMonth) == None): datesToDiscountXtaxByAccount[dateNextMonth] = datesToDiscountXtaxByAccount["default"]
+    if(datesToDiscountXtaxByAccount.get(dateNextMonth) == None): datesToDiscountXtaxByAccount[dateNextMonth] = datesToDiscountXtaxByAccount["default"].copy()
     dictToInterate = dictIndexesToDiscount
+    
     for index in dictToInterate: 
       
       valueToTax = dictIndexesToDiscount[index]

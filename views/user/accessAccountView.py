@@ -1,5 +1,6 @@
 import sys
 import os
+from core.either.left import Left
 
 from controllers.user.accessAccountController import AccessAccountController
 from controllers.user.createUserController import CreateUserController
@@ -18,8 +19,14 @@ class AccessAccountView(ViewModel):
   def call(self):
     self.isToLeave = False
     accountsList = self.accessAccountController.getAvailableAccounts()
+    if(type(accountsList) == Left): 
+      print("Tivemos um erro ao tentar pegar as contas disponíveis. Por favor, pedimos que se logue novamente.")
+      self.pressAnyKeyToContinue()
+      return self.returnView([None, None])
+    
     if(accountsList == None or accountsList == []): 
       print("Parece que você ainda não tem uma conta. Vamos começar?")
+      self.pressAnyKeyToContinue()
       return self.returnView(["4", self.holderName])
     
     
@@ -32,8 +39,10 @@ class AccessAccountView(ViewModel):
       case True: return self.returnView(["5", f"{result};{self.holderName}"])
       case False:
         if(result != self.exitValue): print("Opção Inválida.\n") 
+        self.pressAnyKeyToContinue()
         return self.returnView(self.call)
       case _:
         print("Desculpe, tivemos um erro interno. Tente novamente: ")
+        self.pressAnyKeyToContinue()
         return self.returnView(self.call)
 

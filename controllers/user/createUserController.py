@@ -21,4 +21,4 @@ class CreateUserController(object):
     either = createUserJsonRepository(self.__name, self.__password)
     if(type(either) == Right):
       return -1
-    return either.result  
+    return either.code  

@@ -20,7 +20,10 @@ class CreateView(ViewModel):
     result = createUserController.create()
     
     match result:
-      case -1: return self.returnView(["3", createUserController.getName()])
+      case -1: 
+        print("Conta criada!")
+        self.pressAnyKeyToContinue()
+        return self.returnView(["3", createUserController.getName()])
       case 3:
         print("Este nome já está em uso. Tente outro. ")  
         return self.returnView(self.call)

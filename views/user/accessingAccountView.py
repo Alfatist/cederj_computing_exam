@@ -60,7 +60,9 @@ class AccessingAccountView(ViewModel):
           if(valueToTransfer.lower() == "voltar"): return self.returnView(self.call)
           if(valueToTransfer.isnumeric()):
             valueToTransfer = float(valueToTransfer)
-            if(0 < valueToTransfer < self.accessingAccountController.getBalance()): break
+            actualBalance = self.accessingAccountController.getActualBalance()
+            if(0 < valueToTransfer <= actualBalance): break
+            print("Parece que você não tem dinheiro o suficiente.")
           valueToTransfer = self.inputView("Por favor, digite um valor válido: ")
         result = self.accessingAccountController.transferMoneyToAccount(idAccountTotransfer, float(valueToTransfer))
         if(type(result) == Right): print(f"\n{valueToTransfer} transferido para a conta {idAccountTotransfer} com êxito!")
@@ -77,7 +79,11 @@ class AccessingAccountView(ViewModel):
         result = self.accessingAccountController.withdrawMoney(float(valueToAdd))
         
         if(type(result) == Right): print(f"\n{valueToAdd} sacado da conta com êxito!")
-        if(type(result) == Left): print("\n Algo deu errado. Por favor, repita a operação.")
+        if(type(result) == Left): 
+          match result.code:
+            case 9: print("Não há dinheiro o suficiente para a operação.")
+            case 11: print("Não há dinheiro o suficiente para a operação.")
+            case _: print("Desculpe, não conseguimos efetuar a operação.")
         
         self.pressAnyKeyToContinue()
         return self.returnView(self.call)
@@ -97,7 +103,10 @@ class AccessingAccountView(ViewModel):
         return self.returnView(self.call)
       case "6":
         confirm = self.inputView("Para confirmar a operação, digite seu nome: ")
-        if(confirm != self.accessingAccountController.getName()): return self.returnView(self.call)
+        if(confirm != self.accessingAccountController.getName()): 
+          print("Valor errado. Tente novamente.")
+          self.pressAnyKeyToContinue()
+          return self.returnView(self.call)
         result = self.accessingAccountController.orderDeleteAccount()
         if(type(result) == Right): 
           print("\n\nBeleza, sua solicitação de exclusão foi solicitada para um dos nossos adms. Agradecemos a preferência :)")
@@ -110,7 +119,11 @@ class AccessingAccountView(ViewModel):
           
         resultPaying = self.accessingAccountController.paySpecialCheck()
 
-        if(type(resultPaying) == Left and resultPaying.code != 13): print("Desculpe, não conseguimos pagar. Tente novamente.")
+        if(type(resultPaying) == Left): 
+          match resultPaying.code:
+            case 11: print("Não há dinheiro o suficiente para a operação.")
+            case 13: print("Não há valor para pagar de cheque especial.")
+            case _: print("Desculpe, ocorreu um erro interno. Tente novamente.")
         else: print(f"{valueToPay} do cheque especial pago com sucesso!")
 
         self.pressAnyKeyToContinue()

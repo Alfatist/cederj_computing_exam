@@ -23,7 +23,7 @@ class AuthAdminView(ViewModel):
     if(self.isToLeave): return None
     result = authAdminController.auth()
     
-    match result.result:
+    match result.code:
       case -1: return self.returnView(["-1", authAdminController.getName()])
       case 1:
         print("Desculpe, não conseguimos encontrar a conta ") 

@@ -10,6 +10,7 @@ from core.either.right import Right
 from core.either.either import Either
 from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
+from usecases.addToYieldRepository import addToYieldJsonRepository
 
 
 def createSavingAccountJsonRepository(holderName, address, agency = "0001") -> Either:
@@ -18,14 +19,18 @@ def createSavingAccountJsonRepository(holderName, address, agency = "0001") -> E
     if(type(accounts) == Left): return accounts
     accountID = accounts["nextId"]
     accounts["nextId"] = accountID + 1
-    newJson = accounts["defaultSavingAccountDict"]
+    newJson = accounts["defaultSavingAccountDict"].copy()
     newJson["holderName"] = holderName
     newJson["holderAddress"] = address
     newJson["agency"] = agency
+    accountID = str(accountID)
     
     accounts[accountID] = newJson
     either = writeEndpointJson(AppURLs.accounts, accounts)
+    result = addToYieldJsonRepository(accountID, 0)
+    if(type(result) == Left): raise result.result
     if(type(either) == Right): return addAccountToUserJsonRepository(holderName, accountID)
     return Left(ConnectionError, 5)
-  except:
+  except Exception as e:
+    raise e
     return Left(Exception)

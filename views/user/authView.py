@@ -33,3 +33,5 @@ class AuthView(ViewModel):
       case _:
         print("Desculpe, tivemos um erro interno. Tente novamente: ")
         return self.returnView(self.call)
+      
+      

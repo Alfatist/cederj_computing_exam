@@ -33,8 +33,6 @@ class __mainController:
       else: self.keyValue, self.arguments = result
     except Exception as e:
       print(f"Pedimos que se logue novamente. Pedimos desculpas pela inconveniência.\nErro: {e}")
-      
-      
       self.keyValue = None
 
 

@@ -38,20 +38,25 @@ class AccessingAccountController(object):
   def getValueToPaySpecialCheck(self) -> Left | float: return getValueToTaxFromSpecialCheckJsonRepository(self.__accountId)
   def getAddress(self) -> Either: return getAddressAccountJsonRepository(self.__accountId)
   
-  def checkAccountExist(self, accountToCheck:str) -> bool: 
-    if(not accountToCheck.isnumeric()): return False
-    return checkIfAccountExistJsonRepository(accountToCheck)
-  
-  def transferMoneyToAccount(self, accountToTransfer:str, value: float) -> Either:
-
+  def getActualBalance(self) -> Left | float:
     actualBalance = self.getBalance()
     if(type(actualBalance) == Left): return actualBalance
 
     availableCheck = self.getAvailableCheck()
     if(type(availableCheck) == Left): availableCheck = 0
 
-    availableTotal = availableCheck
-    if(actualBalance > 0): availableTotal += actualBalance
+    if(actualBalance < 0): actualBalance = 0
+    actualBalance += availableCheck
+
+    return actualBalance
+
+  def checkAccountExist(self, accountToCheck:str) -> bool: 
+    if(not accountToCheck.isnumeric()): return False
+    return checkIfAccountExistJsonRepository(accountToCheck)
+  
+  def transferMoneyToAccount(self, accountToTransfer:str, value: float) -> Either:
+
+    actualBalance = self.getActualBalance()
     
     if(0 < value < actualBalance and accountToTransfer.isnumeric()): return transferMoneyAccountJsonRepository(str(self.__accountId), str(accountToTransfer), value)
     return Left(ValueError, 12)

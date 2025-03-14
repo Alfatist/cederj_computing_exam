@@ -9,8 +9,6 @@ from views.viewModel import ViewModel
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 
-#TODO: fazer a rejeição também
-
 class ConfirmDeleteAccountsView(ViewModel):
   def __init__(self, argument):
     print(f"Seja bem vindo a visualização de ADM, {argument}")
@@ -28,6 +26,7 @@ class ConfirmDeleteAccountsView(ViewModel):
 
     if(deleteSolicitations == {} or deleteSolicitations == None):
       print("Parece que não há contas pedindo exclusão.")
+      self.pressAnyKeyToContinue()
       return self.returnView([None, None])
 
     deleteSolicitationsAccounts = list(deleteSolicitations.keys())
@@ -53,6 +52,7 @@ class ConfirmDeleteAccountsView(ViewModel):
       if(type(result) == Right): print(f"Conta {idToDelete} deletada com sucesso!")
       else: print("Desculpe, não foi possível deletar a conta. Tente novamente.")
 
+    self.pressAnyKeyToContinue()
     return self.returnView(self.call)
       
         
