@@ -21,17 +21,17 @@ def addMoneyToSpecialCheckJsonrepository(account, value) -> Either:
   try:
     specialChecks = getEndpointJson(AppURLs.specialCheck)
     indexDictToReceive = specialChecks.get(account)
-    if(indexDictToReceive == None or indexDictToReceive == {}): 
-      specialChecks[account] = specialChecks["default"].copy()
+    if(indexDictToReceive == None or indexDictToReceive == {}): specialChecks[account] = specialChecks["default"].copy()
     if(value == 0): return writeEndpointJson(AppURLs.specialCheck, specialChecks)
 
-    
-    addToStatementJsonRepository(account, f"Pago {value} reais do cheque especial.")
       
     specialChecks[account]["checkAvailable"] += value
+    if(specialChecks[account]["checkAvailable"] > specialChecks[account]["checkTotalLimit"]): specialChecks[account]["checkAvailable"] = specialChecks[account]["checkTotalLimit"]
+       
     specialChecks[account]["valueToTax"] -= value
     if(getValueToTaxFromSpecialCheckJsonRepository(account) < 0): specialChecks[account]["valueToTax"] = 0
 
+    addToStatementJsonRepository(account, f"Pago {value} reais do cheque especial.")
     return writeEndpointJson(AppURLs.specialCheck, specialChecks)
 
   except Exception as e:

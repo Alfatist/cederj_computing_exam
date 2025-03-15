@@ -1,4 +1,5 @@
 from usecases.discountTaxCurrentAccountJsonRepository import taxCurrentAccountsJsonRepository
+from usecases.taxSpecialChecksJsonRepository import taxSpecialChecksJsonRepository
 from usecases.yieldSavingAccountsJsonRepository import yieldSavingAccountsJsonRepository
 from views.admin.authAdminView import AuthAdminView
 from views.admin.confirmDeleteAccountsView import ConfirmDeleteAccountsView
@@ -43,6 +44,7 @@ def arguments() -> str: return controller.arguments
 
 
 while(True):
+  taxSpecialChecksJsonRepository()
   yieldSavingAccountsJsonRepository() 
   taxCurrentAccountsJsonRepository()
 
