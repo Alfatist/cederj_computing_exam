@@ -1,9 +1,7 @@
 import sys
 import os
 
-from controllers.user.accessAccountController import AccessAccountController
 from controllers.user.createAccountController import CreateAccountController
-from controllers.user.createUserController import CreateUserController
 from views.viewModel import ViewModel
 
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -14,39 +12,39 @@ class CreateAccountView(ViewModel):
   createAccountController: CreateAccountController
 
   def __init__(self, holderName):
+    super().__init__()
     self.createAccountController, self.holderName = CreateAccountController(holderName), holderName
 
   def call(self):
-    self.isToLeave = False
-    accountTypeChoose = self.inputView("\nCaso queira criar uma conta corrente, digite '1'. Caso queira criar uma conta poupança, digite '2'\nCaso queira voltar, digite 'voltar'\n\n")
-    if(self.isToLeave): return self.returnView([0,0])
+    
+    accountTypeChoose = self.inputView("\nCaso queira criar uma conta corrente, digite '1'. Caso queira criar uma conta poupança, digite '2'")
     match accountTypeChoose.lower():
-      case "voltar": return self.returnView(["3", self.holderName])
       case "1": 
-        return self.returnView(self.__caseCurrent())
+        self.setResult(self.returnView(self.__caseCurrent()))
 
       case "2":
-        return self.returnView(self.__caseSaving())
-      case _:
-        print("Opção inválida. Tente novamente.")
-        self.pressAnyKeyToContinue()
-        return self.returnView(self.call)
+        self.setResult(self.returnView(self.__caseSaving()))
 
+      case _:
+        self.print("Opção inválida. Tente novamente.")
+        
+        self.setResult(self.returnView(self.call))
+    return self.result
 
 
   def __caseCurrent(self):
     addressUser = self.inputView("Insira o endereço: ")
     while(addressUser == ""): addressUser = self.inputView("Por favor, insira um endereço válido: ")
     agencyUser = self.__askForAgency()
-    if(self.isToLeave): return self.returnView([0,0])
+    
     
     if(self.createAccountController.createCurrentAccount(addressUser, agencyUser)): 
-      print("Conta criada com sucesso!")
-      self.pressAnyKeyToContinue()
-      return self.returnView(["3", self.holderName])
+      self.print("Conta criada com sucesso!")
+      
+      return self.returnView(["5", f"{self.createAccountController.getResult()};{self.holderName}"])
     
-    print("Desculpe, algo deu erro internamente. Por favor, tente novamente.")
-    self.pressAnyKeyToContinue()
+    self.print("Desculpe, algo deu erro internamente. Por favor, tente novamente.")
+    
     return self.returnView(self.call)
   
   def __caseSaving(self):
@@ -55,11 +53,11 @@ class CreateAccountView(ViewModel):
     agencyUser = self.__askForAgency()
     if(self.isToLeave): return self.returnView([0,0])
     if(self.createAccountController.createSavingAccount(addressUser, agencyUser)): 
-      print("Conta criada com sucesso!")
-      self.pressAnyKeyToContinue()
-      return self.returnView(["3", self.holderName])
-    print("Desculpe, algo deu erro internamente. Por favor, tente novamente.")
-    self.pressAnyKeyToContinue()
+      self.print("Conta criada com sucesso!")
+      
+      return self.returnView(["5", f"{self.createAccountController.getResult()};{self.holderName}"])
+    self.print("Desculpe, algo deu erro internamente. Por favor, tente novamente.")
+    
     return self.returnView(self.call)
   
   def __askForAgency(self) -> str:

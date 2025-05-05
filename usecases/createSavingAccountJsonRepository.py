@@ -29,7 +29,9 @@ def createSavingAccountJsonRepository(holderName, address, agency = "0001") -> E
     either = writeEndpointJson(AppURLs.accounts, accounts)
     result = addToYieldJsonRepository(accountID, 0)
     if(type(result) == Left): raise result.result
-    if(type(either) == Right): return addAccountToUserJsonRepository(holderName, accountID)
+    if(type(either) == Right): 
+      addAccountToUserJsonRepository(holderName, accountID)
+      return Right(accountID)
     return Left(ConnectionError, 5)
   except Exception as e:
     raise e

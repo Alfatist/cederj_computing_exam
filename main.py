@@ -1,14 +1,16 @@
 from usecases.discountTaxCurrentAccountJsonRepository import taxCurrentAccountsJsonRepository
 from usecases.taxSpecialChecksJsonRepository import taxSpecialChecksJsonRepository
 from usecases.yieldSavingAccountsJsonRepository import yieldSavingAccountsJsonRepository
+from views.admin.accessingAdminView import AccessingAdminView
 from views.admin.authAdminView import AuthAdminView
-from views.admin.confirmDeleteAccountsView import ConfirmDeleteAccountsView
 from views.user.accessAccountView import AccessAccountView
 from views.user.accessingAccountView import AccessingAccountView
 from views.user.authView import AuthView
 from views.user.createAccountView import CreateAccountView
 from views.user.createView import CreateView
 from views.viewModel import ViewModel
+from views.mainMenu import ShowMainMenu
+from tkinter import messagebox
 
 class __mainController:
   '''cada view retorna, obrigatoriamente, ou uma lista contendo [keyValue, arguments] ou None. Se for None, ele retorna para o logout.'''
@@ -33,8 +35,10 @@ class __mainController:
       if(result == None): self.keyValue = result
       else: self.keyValue, self.arguments = result
     except Exception as e:
-      print(f"Pedimos que se logue novamente. Pedimos desculpas pela inconveniência.\nErro: {e}")
+      messagebox.showerror("Erro", f"Ocorreu um erro inesperado. Por favor, tente novamente.\nErro: {e}") 
       self.keyValue = None
+      ShowMainMenu()
+      
 
 
 controller = __mainController()
@@ -52,9 +56,11 @@ while(True):
 
     case None: 
       controller.resetValues()
-      initialResult = input("\n\n\n\n\n\n\n\n\n\n\n\n\n\n===================\n\n    CEDERJ BANK\n\n===================\nEntre (1) | Cadastre-se (2) ")
-      if(initialResult != "1" and initialResult != "2" and initialResult != "admin"): 
-        print("Valor inválido")
+      
+
+      initialResult = ShowMainMenu()
+      if(initialResult != "1" and initialResult != "2" and initialResult != "admin" and initialResult != "leave"): 
+        messagebox.showerror("Erro", "Valor inválido")
         continue
       controller.keyValue = initialResult
       
@@ -64,9 +70,7 @@ while(True):
       
     case "2": controller.executeView(CreateView)
       
-    case "3":
-      controller.popExitTutorialIfNeed()
-      controller.executeView(AccessAccountView)
+    case "3": controller.executeView(AccessAccountView)
 
     case "4": controller.executeView(CreateAccountView)
     
@@ -74,8 +78,8 @@ while(True):
 
     case "admin": controller.executeView(AuthAdminView) # deve retornar -1 e o nome do adm
 
-    case "-1": controller.executeView(ConfirmDeleteAccountsView)
+    case "-1": controller.executeView(AccessingAdminView)
     case _:
-      print("Parabéns. Esta parte do sistema ainda não está pronta.")
+      print("Obrigado por utilizar nosso sistema.")
       break
 

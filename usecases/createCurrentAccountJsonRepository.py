@@ -43,7 +43,8 @@ def createCurrentAccountJsonRepository(holderName, address, agency = "0001", tax
       resultTax = writeEndpointJson(AppURLs.datesToDiscountXtaxByAccount, datesToDiscountXtaxByAccount)
       if(type(resultTax) == Right): 
         addMoneyToSpecialCheckJsonrepository(accountID, 0)
-        return addAccountToUserJsonRepository(holderName, accountID)
+        addAccountToUserJsonRepository(holderName, accountID)
+        return Right(str(accountID))
     return Left(ConnectionError, 5)
   except Exception as e:
     return Left(e)

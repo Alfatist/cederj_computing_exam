@@ -9,14 +9,10 @@ from core.either.either import Either
 from common.helpers.getEndpointJson import getEndpointJson
 from core.constants.appURLs import AppURLs
 
-def orderDeleteAccountJsonRepository(idAccount, holderName) -> Left | dict:
+def getAccountJsonRepository(idAccount) -> Left | dict:
   try: 
-    json = getEndpointJson(AppURLs.deleteSolicitations)
-    if(type(json) == Left): return json
-    json[idAccount] = holderName
     accounts = getEndpointJson(AppURLs.accounts)
-    accounts[idAccount]["delete_solicitation"] = "Aguardando"
-    writeEndpointJson(AppURLs.accounts, accounts)
-    return writeEndpointJson(AppURLs.deleteSolicitations, json)
-
-  except Exception as e: return Left(e)
+    account = accounts.get(idAccount)
+    if(account == None): return Left(ValueError, 1)
+    return accounts.get(idAccount)
+  except: return Left(Exception)

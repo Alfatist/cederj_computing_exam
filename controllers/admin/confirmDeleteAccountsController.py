@@ -1,5 +1,7 @@
 from core.either.either import Either
 from core.either.left import Left
+from core.either.right import Right
+from usecases.getAccountJsonRepository import getAccountJsonRepository
 from usecases.deleteAccountJsonRepository import deleteAccountJsonRepository
 from usecases.denyDeleteSolicitationJsonRepository import denyDeleteSolicitationJsonRepository
 from usecases.getDeleteSolicitationsJsonRepository import getDeleteSolicitationsJsonRepository
@@ -8,6 +10,10 @@ from usecases.getDeleteSolicitationsJsonRepository import getDeleteSolicitations
 class ConfirmDeleteAccountsController(object):
 
   deleteSolicitations: dict
+
+  def getAccount(self, value) -> Left | dict:
+    return getAccountJsonRepository(value)
+    
   
   def getDeleteSolicitations(self) -> Left | dict: 
     result = getDeleteSolicitationsJsonRepository()

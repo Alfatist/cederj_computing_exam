@@ -15,6 +15,12 @@ def denyDeleteSolicitationJsonRepository(idAccount) -> Either:
     if(type(solicitations) == Left): return solicitations
     
     solicitations.pop(idAccount)
+
+    accounts = getEndpointJson(AppURLs.accounts)
+    accounts[str(idAccount)]["delete_solicitation"] = "Negado"
+
+
+    writeEndpointJson(AppURLs.accounts, accounts)
     return writeEndpointJson(AppURLs.deleteSolicitations, solicitations)
   except Exception as e:
     return Left(e)

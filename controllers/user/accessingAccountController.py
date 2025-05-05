@@ -1,6 +1,7 @@
 from datetime import datetime
 from common.helpers.isDateInRange import isDateInRange
 from core.either.left import Left
+from usecases.getSolicitationStatusJsonRepository import getSolicitationStatusJsonRepository
 from usecases.getAvailableCheckJsonRepository import getAvailableCheckJsonRepository
 from usecases.getValueToTaxFromSpecialCheckJsonRepository import getValueToTaxFromSpecialCheckJsonRepository
 from usecases.getStatementOfAccountJsonRepository import getStatementOfAccountJsonRepository
@@ -36,6 +37,7 @@ class AccessingAccountController(object):
   def getBalance(self) -> Left | float: return getBalanceAccountJsonRepository(self.__accountId)
   def getAvailableCheck(self) -> Left | float: return getAvailableCheckJsonRepository(self.__accountId)
   def getValueToPaySpecialCheck(self) -> Left | float: return getValueToTaxFromSpecialCheckJsonRepository(self.__accountId)
+  def getSolicitationStatus(self) -> Left | str: return getSolicitationStatusJsonRepository(self.__accountId)
   def getAddress(self) -> Either: return getAddressAccountJsonRepository(self.__accountId)
   
   def getActualBalance(self) -> Left | float:
